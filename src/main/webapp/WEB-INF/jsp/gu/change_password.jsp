@@ -1,144 +1,176 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HPGST | Log in</title>
-
-    <link rel="stylesheet" href="static\dist\css\googleFront\googleFrontFamilySourceSansPro.css">
-    <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
-
-    <script src="/static/plugins/jquery/jquery.min.js"></script>
-    <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/dist/js/adminlte.min.js"></script>
-    <script src="/static/dist/js/countdownTimer.min.js"></script>
-    <link rel="stylesheet" href="/static/dist/css/sweetalert2.min.css">
-  
-  <style type="text/css">
-  
-  .login-header-custom{
-  	background-color: #343a40; 
-  	font-size:20px;
-  	color: #fff; 
-  	text-align:center;
-  	padding:10px;
-  	box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
-  	border-top-left-radius: 10px; 
-  	border-top-right-radius: 10px;
-  }
-  .toggle-password {
-		position: absolute;
-		right: 5px;
-		top: 50%;
-		transform: translateY(-50%);
-		cursor: pointer;
-	}
-  
-  </style>
+    <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png"/>
+    <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="/static/dist/css/adminlte.min.css"/>
+    <link rel="stylesheet" href="/static/dist/css/sweetalert2.min.css"/>
+    <style>
+      :root { --hp-sidebar-width: 250px; }
+      .app-sidebar { width: var(--hp-sidebar-width) !important; }
+      @media (min-width: 992px) {
+        body.sidebar-expand-lg:not(.sidebar-collapse) .app-wrapper .app-main {
+          margin-left: var(--hp-sidebar-width);
+        }
+        body.sidebar-collapse .app-wrapper .app-main { margin-left: 0 !important; }
+      }
+      @media (max-width: 991.98px) {
+        .app-wrapper .app-main { margin-left: 0 !important; }
+        body.sidebar-open .app-wrapper .app-main { margin-left: 0 !important; }
+      }
+    </style>
+    <style type="text/css">
+      .login-header-custom{
+        background-color: #343a40;
+        font-size:20px;
+        color: #fff;
+        text-align:center;
+        padding:10px;
+        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .toggle-password {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+    </style>
 </head>
-<body class="hold-transition login-page">
-<div class="login-box" id="loginDiv">
-  <div class="login-header-custom" >
-   Change Password
-  </div>
-  <div class="card">
-    <div class="card-body login-card-body">
- 	    <div id="messageDiv" style="color: red;padding-bottom:5px;text-align:center;">${messageDiv}</div>
-      <form id="loginForm" >
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <div class="text-center">
-            <i class="fa fa-user-circle"  style="font-size:60px;"></i>
-            <h5>${UserLoginName}</h5>
-            <p style="font-size:12px;">${designationAcronym}</p>
-            <%-- <p style="font-size:12px;">${userIdToChangePassword}</p> --%>
-            
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+  <jsp:include page="../layout/header.jsp"/>
+  <jsp:include page="../layout/sidebar.jsp"/>
+  <main class="app-main">
+    <div class="app-content">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="login-box" id="loginDiv">
+              <div class="login-header-custom">
+               Change Password
+              </div>
+              <div class="card">
+                <div class="card-body login-card-body">
+                        <div id="messageDiv" style="color: red;padding-bottom:5px;text-align:center;">${messageDiv}</div>
+                  <form id="loginForm" >
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <div class="text-center">
+                        <i class="fa fa-user-circle"  style="font-size:60px;"></i>
+                        <h5>${UserLoginName}</h5>
+                        <p style="font-size:12px;">${designationAcronym}</p>
+                    </div>
+                    <div id="passwordModule">
+                        <label for="oldPassword">Old Password<span style="color: red;"> *</span> <span id="oldPassword_error"></span></label>
+                        <div class="input-group mb-3" id="inputDiv1" style="border-radius: 5px;">
+                            <input type="password" id="oldPassword" name="oldPassword" class="form-control" maxlength="15" placeholder="Please Enter Old Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i id="toggleIconOldPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('oldPass')"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="newPassword">New Password<span style="color: red;"> *</span> <span id="newPassword_error"></span></label>
+                        <div class="input-group mb-3" id="inputDiv2" style="border-radius: 5px;" title="Password Should be 8-15 char long[A-Z, a-z, 0-9 and [@, ., #, $, !, %, *, ?, &]]">
+                            <input type="password" id="newPassword" name="newPassword" class="form-control" maxlength="15" placeholder="Please Enter New Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i id="toggleIconNewPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('newPass')"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="ReEnterPassword">Re-Enter Password<span style="color: red;"> *</span> <span id="reEnterNewPasswordError"></span></label>
+                        <div class="input-group mb-3" id="inputDiv3" style="border-radius: 5px;">
+                            <input type="password" id="reEnterNewPassword" name="reEnterNewPassword" class="form-control" maxlength="15" placeholder="Please Re-Enter New Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i id="toggleIconReNewPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('reNewPass')"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="otpEncd" name="otpEncd">
+                        <input type="hidden" id="otpTime" name="otpTime">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary btn-block" onclick="submitForm();">Submit</button>
+                            </div>
+
+                             <div class="col-4">
+                                <button type="button" class="btn btn-primary btn-block" onclick="goBack('${returnToUrl}');">Back</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="otpModule" style="display: none;">
+                        <label for="otp">One Time Password<span style="color: red;"> *</span> <span id="otp_error"></span></label>
+                        <div class="input-group mb-3">
+                            <input type="text" onKeyPress="if(this.value.length==6) return false;" id="otp" name="otp" class="form-control" placeholder="Enter OTP">
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding:0px 2px;">
+                                    <button type="button" class="btn btn-primary" style="padding:0.25rem 0.85rem" id="regenerateBtn" onclick="submitForm();"><span id="example1"></span><span id="example"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="passwordModule">
-            <label for="oldPassword">Old Password<span style="color: red;"> *</span> <span id="oldPassword_error"></span></label>
-            <div class="input-group mb-3" id="inputDiv1" style="border-radius: 5px;">
-                <input type="password" id="oldPassword" name="oldPassword" class="form-control" maxlength="15" placeholder="Please Enter Old Password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <i id="toggleIconOldPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('oldPass')"></i>
-                    </div>
-                </div>
-            </div>
-            <label for="newPassword">New Password<span style="color: red;"> *</span> <span id="newPassword_error"></span></label>
-            <div class="input-group mb-3" id="inputDiv2" style="border-radius: 5px;" title="Password Should be 8-15 char long[A-Z, a-z, 0-9 and [@, ., #, $, !, %, *, ?, &]]">
-                <input type="password" id="newPassword" name="newPassword" class="form-control" maxlength="15" placeholder="Please Enter New Password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <i id="toggleIconNewPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('newPass')"></i>
-                    </div>
-                </div>
-            </div>
-            <label for="ReEnterPassword">Re-Enter Password<span style="color: red;"> *</span> <span id="reEnterNewPasswordError"></span></label>
-            <div class="input-group mb-3" id="inputDiv3" style="border-radius: 5px;">
-                <input type="password" id="reEnterNewPassword" name="reEnterNewPassword" class="form-control" maxlength="15" placeholder="Please Re-Enter New Password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <i id="toggleIconReNewPass" class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('reNewPass')"></i>
-                    </div>
-                </div>
-            </div>
-            <input type="hidden" id="otpEncd" name="otpEncd">
-            <input type="hidden" id="otpTime" name="otpTime">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary btn-block" onclick="submitForm();">Submit</button>
-                </div>
-                
-                 <div class="col-4">
-                    <button type="button" class="btn btn-primary btn-block" onclick="goBack('${returnToUrl}');">Back</button>
-                </div> 
-                
-            </div>
-            
-            <!-- <div class="col-12 d-flex justify-content-center">
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary btn-block">Back</button>
-                </div>
-            </div> -->
-            
-        </div>
-        <div id="otpModule" style="display: none;">
-            <label for="otp">One Time Password<span style="color: red;"> *</span> <span id="otp_error"></span></label>
-            <div class="input-group mb-3">
-                <input type="text" onKeyPress="if(this.value.length==6) return false;" id="otp" name="otp" class="form-control" placeholder="Enter OTP">
-                <div class="input-group-append">
-                    <div class="input-group-text" style="padding:0px 2px;">
-                        <button type="button" class="btn btn-primary" style="padding:0.25rem 0.85rem" id="regenerateBtn" onclick="submitForm();" ><span id="example1"></span><span id="example"></span></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 d-flex justify-content-center">
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary btn-block" onclick="submitOtp();">Submit</button>
-                </div>
-            </div>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
+  </main>
+  <jsp:include page="../layout/footer.jsp"/>
 </div>
+
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+<script src="/static/dist/js/countdownTimer.min.js"></script>
 <script src="/static/dist/js/sweetalert2.all.min.js"></script>
+
 <script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
+  (function () {
+    const mqDesktop = window.matchMedia('(min-width: 992px)');
+    function toggleSidebar() {
+      if (mqDesktop.matches) {
+        document.body.classList.toggle('sidebar-collapse');
+      } else {
+        document.body.classList.toggle('sidebar-open');
+      }
+    }
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-lte-toggle="sidebar"], [data-widget="pushmenu"]');
+      if (!btn) return;
+      e.preventDefault();
+      toggleSidebar();
+    });
+  })();
+</script>
+
+<script>
+  document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
 });
 document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
+        if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+        }
 });
 document.addEventListener('keydown', function(e) {
     if (e.key === 'F12') {
         e.preventDefault();
     }
 });
- // Disable back and forward cache
 $(document).ready(function () {
     function disableBack() {window.history.forward()}
 
@@ -149,7 +181,7 @@ $(document).ready(function () {
 document.onkeydown = function (e) {
     if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
         e.preventDefault();
-        
+
     }
 };
     function togglePasswordVisibility(passOrRetypePass) {
@@ -178,38 +210,39 @@ function clearAllErrors(){
 }
 
 function submitForm(){
-	var passwordModule = document.getElementById("passwordModule");
+        var passwordModule = document.getElementById("passwordModule");
     var otpModule = document.getElementById("otpModule");
-    
-	var oldPassword = $("#oldPassword").val();
+
+        var oldPassword = $("#oldPassword").val();
     var newPassword = $("#newPassword").val();
     var reEnterNewPassword = $("#reEnterNewPassword").val();
     var flag = false;
-    
+
 
     clearAllErrors();
-    
 
-	if(oldPassword === '' || oldPassword == null){
+
+        if(oldPassword === '' || oldPassword == null){
         $("#inputDiv1").css("box-shadow","2px 3px 5px red");
-		flag = true;
-	} else {
+                flag = true;
+        } else {
         $("#inputDiv1").css("box-shadow","2px 3px 5px transparent");
     }
     if(newPassword === '' || newPassword == null){
         $("#inputDiv2").css("box-shadow","2px 3px 5px red");
-		flag = true;
-	} else {
+                flag = true;
+        } else {
         $("#inputDiv2").css("box-shadow","2px 3px 5px transparent");
     }
     if(reEnterNewPassword === '' || reEnterNewPassword == null){
         $("#inputDiv3").css("box-shadow","2px 3px 5px red");
-		flag = true;
-	} else {
+                flag = true;
+        } else {
         $("#inputDiv3").css("box-shadow","2px 3px 5px transparent");
     }
 
-    
+
+
 
     if(flag!=true){
         let passwardRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
@@ -234,7 +267,7 @@ function submitForm(){
             return;
         }
 
-        
+
         const url = '/gu/reset_password';
         const data = {
             loginName: '${userIdToChangePassword}',
@@ -257,7 +290,7 @@ function submitForm(){
             throw new Error('Network response was not ok.');
         })
         .then(data => {
-        	debugger;
+                debugger;
             const obj = JSON.parse(data);
             var len = Object.keys(obj).length;
             if(len>1){
@@ -269,28 +302,27 @@ function submitForm(){
                 $("#example1").text('Regenerate OTP in ');
                 counter();
             } else{
-            	if(obj.error1 == "pass_matched"){
-            		Swal.fire({
-    					icon: 'success',
-    					title: 'Success!',
-    					text: 'Password changed successfully. Please re-login.',
-    					}).then(() => {
-    					/* window.location.href = $(location).attr('protocol')+"//"+$(location).attr('host')+'/login'; */
-    						window.location.assign('/login');
-    				});
-            	}
-            	else{
-            		 $("#oldPassword").val("");
+                if(obj.error1 == "pass_matched"){
+                        Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Password changed successfully. Please re-login.',
+                                        }).then(() => {
+                                                window.location.assign('/login');
+                                });
+                }
+                else{
+                         $("#oldPassword").val("");
                      $("#oldPassword_error").html(obj.error1).css("color","red");
-            	}
-            	
-            	
+                }
+
+
                 /* if(obj.error2==null){
                     $("#oldPassword").val("");
                     $("#oldPassword_error").html(obj.error1).css("color","red");
-                } 
+                }
                 else {
-                	alert("hello");
+                        alert("hello");
                     window.location.assign('/login');
                 } */
             }
@@ -310,12 +342,12 @@ function submitForm(){
   });
 
   function goBack(returnToUrl) {
-	  window.location.href = returnToUrl;
-	}
-  
+          window.location.href = returnToUrl;
+        }
+
   /* function redirectToPage(redirectLocation){
-	  debugger;
-	  window.location.href = redirectLocation;
+          debugger;
+          window.location.href = redirectLocation;
   } */
 
 /* function submitOtp(){
@@ -331,7 +363,7 @@ function submitForm(){
 
     if(otp === '' || otp == null){
         $("#otp_error").html("Please enter OTP !").css("color","red");
-		 return;
+                 return;
     }
 
     if(newPassword==='' || newPassword==null || loginName==='' || loginName==null){
@@ -366,7 +398,7 @@ function submitForm(){
     .then(data => {
         const obj = JSON.parse(data);
         var len = Object.keys(obj).length;
-        
+
         console.log(obj);
 
         if(len>1){
@@ -382,16 +414,16 @@ function submitForm(){
 } */
 
     /* function counter(){
-		$('#example').countdownTimer({
-	    	   seconds: 5,
-	    	   loop:false,
-	    	   callback:function(){
-	    		   $("#regenerateBtn").prop('disabled', false);
+                $('#example').countdownTimer({
+                   seconds: 5,
+                   loop:false,
+                   callback:function(){
+                           $("#regenerateBtn").prop('disabled', false);
                    $("#example").text('');
                    $("#example1").text('Regenerate OTP');
-	    	   }
-	   	 });
-	} */
+                   }
+                 });
+        } */
 </script>
 
 </body>
