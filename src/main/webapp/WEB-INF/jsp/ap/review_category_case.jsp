@@ -17,14 +17,15 @@
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
-  <div class="content-wrapper">
+  <main class="app-main">
+    <div class="app-content">
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -87,10 +88,10 @@
         </div>
       </div>
     </section>
+    </div>
   </div>
+</main>
   <jsp:include page="../layout/footer.jsp"/>
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
 </div>
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
