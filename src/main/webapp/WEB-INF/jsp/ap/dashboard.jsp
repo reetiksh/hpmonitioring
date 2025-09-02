@@ -33,15 +33,16 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-	<div class="wrapper">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+	<div class="app-wrapper">
 		<div class="preloader flex-column justify-content-center align-items-center">
 			<img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
 				width="60">
 		</div>
 		<jsp:include page="../layout/header.jsp" />
 		<jsp:include page="../layout/sidebar.jsp" />
-		<div class="content-wrapper">
+		<main class="app-main">
+    <div class="app-content">
 			<div class="content-header">
 				<div class="container-fluid">
 					<div class="row mb-2">
@@ -753,9 +754,10 @@
 					</table> -->
 				</div>
 			</section>
-		</div>
-		<jsp:include page="../layout/footer.jsp" />
-		<aside class="control-sidebar control-sidebar-dark"></aside>
+    </div>
+  </div>
+</main>
+  <jsp:include page="../layout/footer.jsp" />
 	</div>
 	<script src="/static/plugins/jquery/jquery.min.js"></script>
 	<script src="/static/plugins/jquery-ui/jquery-ui.min.js"></script>

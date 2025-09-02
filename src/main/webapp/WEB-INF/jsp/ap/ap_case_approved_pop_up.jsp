@@ -161,9 +161,7 @@ function submitApproverDeclaration(){
     <div class="modal-content">
        <div class="modal-header">
        <h5 class="modal-title" id="transferModalTitle"><b>Approve</b></h5>
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close">    
-       <span aria-hidden="true">&times;</span>
-       </button>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
 	    <div class="popup" id="myPopupap">
 	        <p>Are You Sure to Approve the following case ?</p>
@@ -186,7 +184,7 @@ function submitApproverDeclaration(){
             	<span style="color: red;"> *</span>
             </label>
           </div>
-          <div class="btn-group btn-group-vertical" role="group" data-toggle="buttons" style="width: 100%;">
+          <div class="btn-group btn-group-vertical" role="group" data-bs-toggle="buttons" style="width: 100%;">
             <c:forEach items="${approverRemarksToApproveTheCaseList}" var="object">
           	<label class="btn btn-outline-custom" style="font-weight: 400;">
 			        <input type="radio" name="remarkOptions" id="${object.name}" onclick="showHideOtherRecommendedRemark()" value="${object.id}" > ${object.name}

@@ -24,13 +24,14 @@
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
-  <div class="wrapper">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <div class="app-wrapper">
     <jsp:include page="../layout/header.jsp" />
     <jsp:include page="../layout/sidebar.jsp" />
     <jsp:include page="../ap/ap_case_approved_pop_up.jsp" />
     <jsp:include page="../ap/ap_case_rejected_pop_up.jsp" />
-    <div class="content-wrapper">
+    <main class="app-main">
+    <div class="app-content">
       <section class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
@@ -98,8 +99,9 @@
         </div>
       </section>
     </div>
-    <jsp:include page="../layout/footer.jsp" />
-    <aside class="control-sidebar control-sidebar-dark"></aside>
+  </div>
+</main>
+  <jsp:include page="../layout/footer.jsp" />
   </div>
   <div class="modal fade" id="closeCaseModal" tabindex="-1" role="dialog" aria-labelledby="closeCaseModalTitle"
     aria-hidden="true">
@@ -109,9 +111,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="confirmationModalTitle">Do you want to proceed ahead with approval for
               closure of the case ?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <p>I hereby undertake that;</p>
@@ -133,7 +133,7 @@
             <div id="checked" style="display:none">
               <button onclick="submitApproverDeclaration()" class="btn btn-primary" id="okayBtn">Okay</button>
             </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Cancel</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">Cancel</button>
           </div>
         </div>
       </div>

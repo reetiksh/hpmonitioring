@@ -253,9 +253,7 @@ document.onkeydown = function (e) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="raiseQueryModalTitle"><b>Revert</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="popuprej" id="myPopuprej">
         <p>Are You Sure to Reject The Following Case ?</p>
@@ -281,7 +279,7 @@ document.onkeydown = function (e) {
               <span style="color: red;"> *</span>
             </label>
           </div>
-          <!-- <div class="btn-group btn-group-vertical" role="group" data-toggle="buttons" style="width: 100%;">
+          <!-- <div class="btn-group btn-group-vertical" role="group" data-bs-toggle="buttons" style="width: 100%;">
             <c:forEach items="${approverRemarksToRejectTheCaseList}" var="object">
               <label class="btn btn-outline-custom" style="font-weight: 400;">
                 <input type="radio" name="remarkOptions" id="${object.name}" onclick="showHideOtherRemark()"
@@ -289,7 +287,7 @@ document.onkeydown = function (e) {
               </label>
             </c:forEach>
           </div> -->
-          <div class="btn-group btn-group-vertical" role="group" data-toggle="buttons" style="width: 100%; display:none; " id="apRejectRemarksDiv">
+          <div class="btn-group btn-group-vertical" role="group" data-bs-toggle="buttons" style="width: 100%; display:none; " id="apRejectRemarksDiv">
             
                <div id="apRejectRemarks"></div>
                 <!-- <input type="radio" name="remarkOptions" id="${object.name}" onclick="showHideOtherRemark()" value="${object.id}"> ${object.name} -->
