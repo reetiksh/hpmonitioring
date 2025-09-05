@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HP GST | Dashboard</title>
     <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png">
-    <!-- <link rel="stylesheet" href="/static/dist/css/googleFront/googleFrontFamilySourceSansPro.css"> -->
     <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="/static/dist/ionicons-2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
@@ -18,14 +17,15 @@
     <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
   </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="layout-fixed sidebar-expand-lg">
 <div class="wrapper">
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
-   <jsp:include page="../../layout/header.jsp"/>
-    <jsp:include page="../../layout/sidebar.jsp"/>
+  <jsp:include page="../../layout/header.jsp"/>
+  <jsp:include page="../../layout/sidebar.jsp"/>
+
   <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
@@ -42,92 +42,79 @@
         </div>
       </div>
     </div>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
               <div class="inner">
                 <h3>150 cr.</h3>
-
                 <p>Total Demand</p>
               </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
+              <div class="icon"><i class="ion ion-bag"></i></div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>15 cr.</h3>
-
                 <p>Total Recovery</p>
               </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
+              <div class="icon"><i class="ion ion-stats-bars"></i></div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-primary">
               <div class="inner">
                 <h3>53<sup style="font-size: 20px">%</sup></h3>
-
                 <p>Total Cases</p>
               </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
+              <div class="icon"><i class="ion ion-stats-bars"></i></div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3>44</h3>
-
                 <p>Action Taken On</p>
               </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
+              <div class="icon"><i class="ion ion-person-add"></i></div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3>65</h3>
-
                 <p>Pending Cases</p>
               </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
+              <div class="icon"><i class="ion ion-pie-graph"></i></div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <div>
-              <h3>${nameFromTableAppRole}</h3>
-            </div>
-            
+            <div><h3>${nameFromTableAppRole}</h3></div>
           </div>
+
         </div>
       </div>
     </section>
   </div>
- 
-   <jsp:include page="../../layout/footer.jsp"/>
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
+
+  <jsp:include page="../../layout/footer.jsp"/>
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
+
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
+<script>$.widget.bridge('uibutton', $.ui.button)</script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/static/plugins/chart.js/Chart.min.js"></script>
 <script src="/static/plugins/sparklines/sparkline.js"></script>
@@ -139,42 +126,29 @@
 <script src="/static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="/static/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<script src="/static/dist/js/adminlte.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 <script src="/static/dist/js/pages/dashboard.js"></script>
+
 <script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12') {
-        e.preventDefault();
-    }
-});
- // Disable back and forward cache
-$(document).ready(function () {
-    function disableBack() {window.history.forward()}
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'u') e.preventDefault(); });
+  document.addEventListener('keydown', e => { if (e.key === 'F12') e.preventDefault(); });
 
+  $(function () {
+    function disableBack(){ window.history.forward(); }
     window.onload = disableBack();
-    window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
-});
-// Disable refresh
-document.onkeydown = function (e) {
-    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-        e.preventDefault();
-        
-    }
-};
-function myFunction(){
-  alert("Inside MyFunction!");
-  document.forms["form1"].submit();
-}
+    window.onpageshow = evt => { if (evt.persisted) disableBack(); };
+  });
 
+  document.onkeydown = function (e) {
+    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) e.preventDefault();
+  };
+
+  function myFunction(){
+    alert("Inside MyFunction!");
+    document.forms["form1"].submit();
+  }
 </script>
 </body>
 </html>

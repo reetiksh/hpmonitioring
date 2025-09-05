@@ -22,32 +22,22 @@
   <link rel="stylesheet" href="/static/dist/css/bootstrap-select.min.css">
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 
-  <!-- Layout fixes: keep content aligned with sidebar and remove fixed center width -->
   <style>
-:root{
-      /* default desktop width; JS will sync this to the real measured width */
+    :root{
       --hp-sidebar-width: 210px;
       --hp-header-height: 56px;
     }
-
-    /* compact spacing */
     .app-header{ height: var(--hp-header-height); }
     .app-content{ padding: 1rem; }
     .content-header{ padding: .5rem 0 .75rem; }
 
-    /* keep sidebar + content perfectly aligned */
     .app-sidebar{ width: var(--hp-sidebar-width) !important; }
-    .app-main{ margin-left: 0px !important; transition: margin-left .2s ease; }
-
-    /* when collapsed on desktop */
+    .app-main{ margin-left: 0 !important; transition: margin-left .2s ease; }
     body.sidebar-collapse .app-main{ margin-left: 0 !important; }
 
-    /* on < lg screens the sidebar is overlay, so content should be full width */
     @media (max-width: 991.98px){
       .app-main{ margin-left: 0 !important; }
     }
-
-    /* Make any Bootstrap .container inside .app-content full width */
     .app-content > .container,
     .app-content > .container-sm,
     .app-content > .container-md,
@@ -63,7 +53,7 @@
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
 
-  <!-- Header / Sidebar from your layout (AdminLTE 4 versions) -->
+  <!-- Header / Sidebar -->
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
 
@@ -72,12 +62,10 @@
   <jsp:include page="../ru/verifier_raisequery.jsp"/>
   <jsp:include page="../ru/appeal_revision_popup.jsp"/>
 
-  <!-- ====================== MAIN ====================== -->
   <main class="app-main">
     <div class="app-content">
       <div class="container-fluid">
 
-        <!-- Page header -->
         <div class="content-header">
           <div class="row mb-2">
             <div class="col-sm-6"><h1 class="m-0">Verify Case Status</h1></div>
@@ -90,13 +78,11 @@
           </div>
         </div>
 
-        <!-- Card -->
         <div class="card card-primary">
           <div class="card-header"><h3 class="card-title mb-0">Verify Cases</h3></div>
-
           <div class="card-body">
 
-            <!-- Alerts (kept) -->
+            <!-- Alerts (unchanged) -->
             <div class="alert alert-success d-none" id="commonBoostrapAlertSuccess">
               <div id="caseRecommendedTagLine" class="d-none">Case Recommended Successfully !</div>
             </div>
@@ -227,15 +213,13 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <jsp:include page="../layout/footer.jsp"/>
 
-</div><!-- /.app-wrapper -->
+</div>
 
-<!-- Mobile overlay for closing the sidebar -->
 <div class="sidebar-overlay" data-lte-dismiss="sidebar"></div>
 
-<!-- ====================== SCRIPTS ====================== -->
+<!-- Scripts -->
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/static/dist/js/adminlte.min.js"></script>
@@ -259,7 +243,7 @@
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 
 <script>
-  /* ===== Sync content with real sidebar width so toggle works ===== */
+  /* Sync content with real sidebar width */
   function setSidebarVar(){
     const sb = document.querySelector('.app-sidebar');
     const collapsed = document.body.classList.contains('sidebar-collapse');
@@ -281,7 +265,7 @@
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   });
 
-  /* Category change */
+  /* Category change (logic unchanged) */
   $(function () {
     $("#category").on('change', function(){
       const selectedValue = $(this).val();
@@ -289,29 +273,32 @@
     });
   });
 
-  /* Your modals helpers (unchanged) */
+  /* Modal helpers updated to Bootstrap 5 API (no logic change) */
   function callRecommended(gstin, circle, reportingDate, period) {
     $("#gstinno").val(gstin);
     $("#circle").val(circle);
     $("#reportingdate").val(reportingDate);
     $("#period").val(period);
-    $("#closeCaseModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('closeCaseModal'));
+    m.show();
   }
   function callAppealOrRevision(gstin, reportingDate, period) {
     $("#appRegGstiNo").val(gstin);
     $("#appRegReportingdate").val(reportingDate);
     $("#appRegPeriod").val(period);
-    $("#appealRevisonModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('appealRevisonModal'));
+    m.show();
   }
   function callRaiseQuery(gstin, circle, reportingDate, period) {
     $("#gstinnorq").val(gstin);
     $("#circlerq").val(circle);
     $("#reportingdaterq").val(reportingDate);
     $("#periodrq").val(period);
-    $("#raisequeryModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('raisequeryModal'));
+    m.show();
   }
 
-  /* Hardening (same as your other pages) */
+  /* Hardening (unchanged) */
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
@@ -319,7 +306,7 @@
   });
 </script>
 
-<!-- Keep your existing modal (closeCaseModal) markup below -->
+<!-- Existing confirmation modal -->
 <div class="modal fade" id="closeCaseModal" tabindex="-1" aria-labelledby="closeCaseModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

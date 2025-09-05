@@ -9,22 +9,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HP GST |Review Case Summary</title>
   <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+
+  <!-- AdminLTE 4 / Bootstrap 5 / FA6 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css" rel="stylesheet">
+
+  <!-- Keep existing local styles you rely on -->
+  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"><!-- kept (not used by init) -->
+  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"><!-- kept -->
+  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"><!-- kept -->
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
   <link rel="stylesheet" href="/static/dist/css/bootstrap-select.min.css">
+
+  <!-- DataTables Bootstrap 5 skins -->
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="layout-fixed sidebar-expand-lg">
 <div class="wrapper">
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
+
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -33,7 +44,7 @@
             <h1>Review Case Summary</h1>
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+            <ol class="breadcrumb float-sm-end">
               <li class="breadcrumb-item"><a href="/hq/dashboard">Home</a></li>
               <li class="breadcrumb-item active">Review Case Summary</li>
             </ol>
@@ -41,6 +52,7 @@
         </div>
       </div>
     </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -66,6 +78,7 @@
                       </c:forEach>
                     </select>
                   </div>
+
                   <c:if test="${!empty parameters}">
                     <div class="col-md-6 form-group">
                       <label>Parameter<span style="color: red;"> *</span></label>
@@ -85,6 +98,7 @@
                     </div>
                   </c:if>
                 </div>
+
                 <c:if test="${!empty categoryTotals}">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -113,6 +127,7 @@
                     </tbody>
                   </table>
                 </c:if>
+
                 <c:if test="${empty categoryTotals}">
                   <div class="col-12" style="text-align: center;">
                     <i class="fa fa-info-circle" style="font-size:100px;color:rgb(97, 97, 97)" aria-hidden="true"></i><br>
@@ -126,90 +141,79 @@
       </div>
     </section>
   </div>
+
   <jsp:include page="../layout/footer.jsp"/>
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
-<script src="/static/plugins/jquery/jquery.min.js"></script>
-<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Scripts: jQuery -> Bootstrap 5 -> AdminLTE 4 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+
+<!-- Keep your existing local plugin scripts (logic unchanged) -->
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script><!-- kept -->
 <script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script><!-- kept -->
 <script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script><!-- kept -->
 <script src="/static/plugins/jszip/jszip.min.js"></script>
 <script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="/static/dist/js/adminlte.min.js"></script>
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 <script src="/static/dist/js/bootstrap-select.min.js"></script>
+
+<!-- DataTables (Bootstrap 5) skins so the table matches BS5 look -->
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+
 <script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12') {
-        e.preventDefault();
-    }
-});
- // Disable back and forward cache
+document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+document.addEventListener('keydown', function(e){ if(e.ctrlKey && e.key==='u'){ e.preventDefault(); } });
+document.addEventListener('keydown', function(e){ if(e.key==='F12'){ e.preventDefault(); } });
+
 $(document).ready(function () {
-    function disableBack() {window.history.forward()}
-
-    window.onload = disableBack();
-    window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
+  function disableBack(){ window.history.forward(); }
+  window.onload = disableBack();
+  window.onpageshow = function (evt){ if (evt.persisted) disableBack(); }
 });
-// Disable refresh
 document.onkeydown = function (e) {
-    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-        e.preventDefault();
-        
-    }
+  if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) { e.preventDefault(); }
 };
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": 
-        [
-          "excel",
-          "pdf",
-          "print", 
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
+
+$(function () {
+  $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["excel","pdf","print"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+  $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true
   });
+});
 
-  $(document).ready(function () {
-    $("#category").change(function(e){
-      var categoryId = $(this).val();
-      window.location.href = '/hq/review_summary_list?categoryId=' + categoryId;
-    });
-
-    $("#parameter").change(function(e){
-      var parameterId = $(this).val();
-      var categoryId = $("#category").val();
-      window.location.href = '/hq/review_summary_list?parameterId=' + parameterId + '&categoryId=' + categoryId;
-    });
-
+$(document).ready(function () {
+  $("#category").change(function(){
+    var categoryId = $(this).val();
+    window.location.href = '/hq/review_summary_list?categoryId=' + categoryId;
   });
+  $("#parameter").change(function(){
+    var parameterId = $(this).val();
+    var categoryId = $("#category").val();
+    window.location.href = '/hq/review_summary_list?parameterId=' + parameterId + '&categoryId=' + categoryId;
+  });
+});
 </script>
 </body>
 </html>

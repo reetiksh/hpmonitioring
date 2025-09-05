@@ -201,11 +201,17 @@
     if ((e.ctrlKey && k === 'u') || k === 'f12' || k === 'f5' || (e.ctrlKey && k === 'r')) e.preventDefault();
   });
 
-  /* Safe-guard old click hooks (only bind if buttons exist) */
+  /* Optional: if you keep old buttons somewhere, use BS5 modal API (safe no-op if IDs don’t exist) */
   const rb = document.getElementById('recommendedBtn');
-  if (rb) rb.addEventListener('click', () => $("#recommendedModal").modal('show'));
+  if (rb) rb.addEventListener('click', () => {
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('recommendedModal'));
+    m && m.show();
+  });
   const rq = document.getElementById('raiseQueryBtn');
-  if (rq) rq.addEventListener('click', () => $("#raisequeryModal").modal('show'));
+  if (rq) rq.addEventListener('click', () => {
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('raisequeryModal'));
+    m && m.show();
+  });
 </script>
 </body>
 </html>

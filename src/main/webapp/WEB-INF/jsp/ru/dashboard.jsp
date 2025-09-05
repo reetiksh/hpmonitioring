@@ -10,13 +10,13 @@
   <title>HP GST | Dashboard</title>
   <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png"/>
 
-  <!-- AdminLTE 4 / Bootstrap 5 core -->
-  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css"/>
-  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css"/>
+  <!-- AdminLTE 4 / Bootstrap 5 (CDN for guaranteed versions) -->
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css" rel="stylesheet"/>
 
-  <!-- Optional plugins (keep only what you use) -->
-  <link rel="stylesheet" href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
-  <link rel="stylesheet" href="/static/plugins/daterangepicker/daterangepicker.css"/>
+  <!-- Optional plugins (only if you use them) -->
+  <link href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.7.3/styles/overlayscrollbars.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css"/>
 </head>
 
@@ -536,21 +536,20 @@
   <footer class="main-footer">
     <strong>Copyright &copy; 2023-2024 <a href="/">Govt of Himachal Pradesh</a>.</strong>
     All rights reserved.
-    <div class="float-end d-none d-sm-inline"><!-- <b>Version</b> 4.0.0 --></div>
+    <div class="float-end d-none d-sm-inline"></div>
   </footer>
 
 </div><!-- /.app-wrapper -->
 
 <!-- ====================== SCRIPTS (order matters) ====================== -->
-<script src="/static/plugins/jquery/jquery.min.js"></script>
-<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/static/dist/js/adminlte.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
 
 <!-- Optional scripts -->
-<script src="/static/plugins/moment/moment.min.js"></script>
-<script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<script src="/static/plugins/chart.js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.30.1/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1/daterangepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.7.3/browser/overlayscrollbars.browser.es6.min.js"></script>
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 
 <script>
@@ -562,15 +561,30 @@
     if (mEl && window.bootstrap) new bootstrap.Modal(mEl).show();
   }
 
-  // Basic hardening
+  // Hardening (unchanged behavior)
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('keydown', e => {
-    const k = e.key.toLowerCase();
+    const k = (e.key || '').toLowerCase();
     if ((e.ctrlKey && k === 'u') || k === 'f12' || k === 'f5' || (e.ctrlKey && k === 'r')) e.preventDefault();
   });
+
+  // (Optional) Shim for sidebar toggle on smaller screens if needed
+  (function () {
+    const mqDesktop = window.matchMedia('(min-width: 992px)');
+    function toggleSidebar() {
+      if (mqDesktop.matches) document.body.classList.toggle('sidebar-collapse');
+      else document.body.classList.toggle('sidebar-open');
+    }
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-lte-toggle="sidebar"]');
+      if (!btn) return;
+      e.preventDefault();
+      toggleSidebar();
+    });
+  })();
 </script>
 
-<!-- Optional: notification modal markup -->
+<!-- Notification Modal -->
 <div class="modal fade" id="notificationHightLightModel" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

@@ -9,7 +9,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Acknowledge Case List</title>
 
-  <!-- AdminLTE 4 / Bootstrap 5 -->
+  <!-- Bootstrap 5 CSS (required by AdminLTE 4) -->
+  <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css"/>
+
+  <!-- AdminLTE 4 -->
   <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 
@@ -44,7 +47,7 @@
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a>Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item active">Approve/Reject Case Id</li>
               </ol>
             </div>
@@ -208,7 +211,8 @@
       async: false,
       success: function(result){
         if (result === 'true') {
-          $("#updateSummaryViewBody").load('/ru/view_case_id/id?gst='+encodeURIComponent(gst)+'&date='+encodeURIComponent(date)+'&period='+encodeURIComponent(period),
+          $("#updateSummaryViewBody").load(
+            '/ru/view_case_id/id?gst='+encodeURIComponent(gst)+'&date='+encodeURIComponent(date)+'&period='+encodeURIComponent(period),
             function(response, status){
               if (status === 'success') {
                 const modalEl = document.getElementById('updateSummaryViewModal');

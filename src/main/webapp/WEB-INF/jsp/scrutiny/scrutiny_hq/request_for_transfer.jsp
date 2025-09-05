@@ -1,31 +1,32 @@
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HP GST | Transfer Request</title>
   <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png">
-  <!-- <link rel="stylesheet" href="/static/dist/css/googleFront/googleFrontFamilySourceSansPro.css"> -->
+
+  <!-- AdminLTE 3 (Bootstrap 4) + Plugins -->
   <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="/static/dist/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="/static/plugins/select2/select2.min.css">
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <jsp:include page="../../layout/header.jsp"/>
+  <!-- The modal UI used by transferBtn lives in this include -->
   <jsp:include page="../scrutiny_hq/transfer_popup.jsp"/>
   <jsp:include page="../../layout/sidebar.jsp"/>
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -40,105 +41,111 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
+
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Transfer Request</h3>
               </div>
-              <!-- /.card-header -->
+
               <div class="card-body">
                 <c:if test="${not empty successMessage}">
-                  <div class="col-12 alert alert-success alert-dismissible fade show" id="message"  role="alert" style="max-height: 500px; overflow-y: auto;">
-                    <strong>${successMessage}</strong><br>
+                  <div class="col-12 alert alert-success alert-dismissible fade show" id="message" role="alert" style="max-height: 500px; overflow-y: auto;">
+                    <strong>${successMessage}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                 </c:if>
+
                 <c:if test="${!empty mstScrutinyCasesList}">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th style="text-align: center; vertical-align: middle;">GSTIN</th>
-                    <th style="text-align: center; vertical-align: middle;">Taxpayer Name</th>
-                    <th style="text-align: center; vertical-align: middle;">Category</th>
-                    <th style="text-align: center; vertical-align: middle;">Reporting Date<br>(DD-MM-YYYY)</th>
-                    <th style="text-align: center; vertical-align: middle;">Case Period</th>
-                    <th style="text-align: center; vertical-align: middle;">Indicative Value(₹)</th>
-                    <th style="text-align: center; vertical-align: middle;">Case Assigned To</th>
-                    <!-- <th style="text-align: center; vertical-align: middle;">Remark</th> -->
-                    <th style="text-align: center; vertical-align: middle;">Suggested Jurisdiction</th>
-                    <th style="text-align: center; vertical-align: middle;">Requested on</th>
-                    <th style="text-align: center; vertical-align: middle;">Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <c:forEach items="${mstScrutinyCasesList}" var="object">
-                      <tr>
-                          <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.GSTIN}" /></td>
-                          <td style="text-align: center; vertical-align: middle;"><c:out value="${object.taxpayerName}" /></td>
-                          <td style="text-align: center; vertical-align: middle;"><c:out value="${object.category.name}" /></td>
-                       	  <td style="text-align: center; vertical-align: middle;"><fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy" /></td>
-                          <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.period}" /></td>   
-                          <td style="text-align: center; vertical-align: middle;"><fmt:formatNumber value="${object.indicativeTaxValue}" pattern="#,##,##0"/></td>
-                          <td style="text-align: center; vertical-align: middle;"><c:out value="${object.locationDetails.locationName}" /></td>
-                          
-                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.suggestedJurisdictionName}" /></td>
-                           <td style="text-align: center; vertical-align: middle;"><fmt:formatDate value="${object.caseUpdateDate}" pattern="dd-MM-yyyy" /></td>
-                           <td  style="text-align: center; vertical-align: middle;">
-                            <button type="button" style="margin: 3px;" class="btn btn-info" onclick="transferBtn( '${object.remark}' , '${object.suggestedJurisdictionId}' , '${object.locationDetails.locationId}', '${object.id.GSTIN}', '${object.id.caseReportingDate}', '${object.id.period}' );"><i class="fa fa-pen-square" style="font-size:25px"></i></button>
-                             <c:if test="${not empty object.filePath}">
-                              <a href="/scrutiny_hq/downloadUploadedPdfFile?fileName=${object.filePath}"><button type="button" onclick="" class="btn btn-primary"><i class="fas fa-download" style="font-size:20px"></i></button></a>
-                            </c:if> 
-                          </td> 
-                      </tr>
-                    </c:forEach>
-                  </tbody>
-                </table>
-              </c:if>
-              <c:if test="${empty mstScrutinyCasesList}">
-                <div class="col-12" style="text-align: center;">
-                  <i class="fa fa-info-circle" style="font-size:100px;color:rgb(97, 97, 97)" aria-hidden="true"></i><br>
-                  <span style="font-size:35px;color:rgb(97, 97, 97)">No Transfer Request Available</span>
-                </div>
-              </c:if>
+                  <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped w-100">
+                      <thead>
+                        <tr>
+                          <th class="text-center align-middle">GSTIN</th>
+                          <th class="text-center align-middle">Taxpayer Name</th>
+                          <th class="text-center align-middle">Category</th>
+                          <th class="text-center align-middle">Reporting Date<br>(DD-MM-YYYY)</th>
+                          <th class="text-center align-middle">Case Period</th>
+                          <th class="text-center align-middle">Indicative Value(₹)</th>
+                          <th class="text-center align-middle">Case Assigned To</th>
+                          <th class="text-center align-middle">Suggested Jurisdiction</th>
+                          <th class="text-center align-middle">Requested on</th>
+                          <th class="text-center align-middle">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <c:forEach items="${mstScrutinyCasesList}" var="object">
+                          <tr>
+                            <td class="text-center align-middle"><c:out value="${object.id.GSTIN}"/></td>
+                            <td class="text-center align-middle"><c:out value="${object.taxpayerName}"/></td>
+                            <td class="text-center align-middle"><c:out value="${object.category.name}"/></td>
+                            <td class="text-center align-middle"><fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy"/></td>
+                            <td class="text-center align-middle"><c:out value="${object.id.period}"/></td>
+                            <td class="text-center align-middle"><fmt:formatNumber value="${object.indicativeTaxValue}" pattern="#,##,##0"/></td>
+                            <td class="text-center align-middle"><c:out value="${object.locationDetails.locationName}"/></td>
+                            <td class="text-center align-middle"><c:out value="${object.suggestedJurisdictionName}"/></td>
+                            <td class="text-center align-middle"><fmt:formatDate value="${object.caseUpdateDate}" pattern="dd-MM-yyyy"/></td>
+                            <td class="text-center align-middle">
+                              <button type="button" class="btn btn-info" style="margin:3px;"
+                                      title="Edit transfer"
+                                      onclick="transferBtn('${fn:escapeXml(object.remark)}',
+                                                           '${fn:escapeXml(object.suggestedJurisdictionId)}',
+                                                           '${fn:escapeXml(object.locationDetails.locationId)}',
+                                                           '${fn:escapeXml(object.id.GSTIN)}',
+                                                           '${fn:escapeXml(object.id.caseReportingDate)}',
+                                                           '${fn:escapeXml(object.id.period)}');">
+                                <i class="fa fa-pen-square" style="font-size:20px"></i>
+                              </button>
+                              <c:if test="${not empty object.filePath}">
+                                <a class="btn btn-primary" title="Download attachment"
+                                   href="/scrutiny_hq/downloadUploadedPdfFile?fileName=${object.filePath}">
+                                  <i class="fas fa-download" style="font-size:16px"></i>
+                                </a>
+                              </c:if>
+                            </td>
+                          </tr>
+                        </c:forEach>
+                      </tbody>
+                    </table>
+                  </div>
+                </c:if>
+
+                <c:if test="${empty mstScrutinyCasesList}">
+                  <div class="col-12 text-center">
+                    <i class="fa fa-info-circle" style="font-size:100px;color:#616161" aria-hidden="true"></i><br>
+                    <span style="font-size:35px;color:#616161">No Transfer Request Available</span>
+                  </div>
+                </c:if>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+
           </div>
-          <!-- /.col -->
         </div>
-        <!-- /.row -->
       </div>
-      <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
+
   <jsp:include page="../../layout/footer.jsp"/>
 
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
-<!-- ./wrapper -->
 
-<!-- jQuery -->
+<!-- Safely embed the jurisdiction map as JSON -->
+<script id="locationJson" type="application/json"><c:out value="${locatoinMap}" /></script>
+
+<!-- Scripts -->
 <script src="/static/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
+
+<!-- DataTables -->
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -151,121 +158,79 @@
 <script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- Select drop-down -->
+
+<!-- Select2 + misc -->
+<script src="/static/plugins/select2/js/select2.full.min.js"></script>
 <script src="/static/dist/js/bootstrap-select.min.js"></script>
-<script src="/static/plugins/select2/select2.min.js"></script>
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+
 <script>
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.key === 'u') {
-      e.preventDefault();
-    }
-  });
-  document.addEventListener('keydown', function(e) {
-      if (e.key === 'F12') {
-          e.preventDefault();
-      }
-  });
-  // Disable back and forward cache
-  $(document).ready(function () {
-      function disableBack() {window.history.forward()}
+  // DataTable
+  $(function () {
+    const dt = $("#example1").DataTable({
+      responsive: true,
+      lengthChange: false,
+      autoWidth: false,
+      buttons: ["excel", "pdf", "print"]
+    });
+    dt.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-      window.onload = disableBack();
-      window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
+    // Flash fade
+    $("#message").fadeTo(5000, 0.5).slideUp(500, function(){ $(this).remove(); });
   });
-  // Disable refresh
-  document.onkeydown = function (e) {
-      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-          e.preventDefault();
-          
-      }
-  };
 
+  // Initialize Select2 globally (the popup also rebinds with dropdownParent)
   $('select').select2();
 
-  $(document).ready(function() {
-    $("#message").fadeTo(5000, 500).slideUp(500, function() {
-      $("#message").slideUp(500);
+  // Helper: open transfer modal and hydrate fields/options
+  function transferBtn(remark, suggestedJurisdictionId, assignedFromLocationId, gstIn, caseReportingDate, period) {
+    // Basic fields
+    $("#remark").val(remark || "");
+    $("#assignedFromLocationId").val(assignedFromLocationId || "");
+    $("#gstIn").val(gstIn || "");
+    $("#caseReportingDate").val(caseReportingDate || "");
+    $("#period").val(period || "");
+
+    // Read JSON safely from script tag
+    let selectValues = {};
+    try {
+      const raw = document.getElementById('locationJson').textContent || "{}";
+      selectValues = JSON.parse(raw);
+    } catch(e){ selectValues = {}; }
+
+    // Rebuild options, excluding current assignedFromLocationId
+    const $loc = $('#locationId');
+    $loc.empty().append('<option disabled selected value="">Select Jurisdiction</option>');
+
+    Object.keys(selectValues).forEach(function(key){
+      if (String(key) === String(assignedFromLocationId)) return;
+      const isSel = String(key) === String(suggestedJurisdictionId);
+      const opt = new Option(selectValues[key], key, isSel, isSel);
+      $loc.append(opt);
     });
-  });
-</script>
-<script>
-  $(function(){
-   $('select').select2({
-     dropdownParent: $('#transferModal')
-   });
- }); 
- </script>
 
-<!-- AdminLTE App -->
-<script src="/static/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<!-- <script src="/static/dist/js/demo.js"></script> -->
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": 
-                [
-                    // "copy",
-                    // "csv",
-                    "excel",
-                    "pdf",
-                    "print", 
-                    // "colvis"
-                ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
-<script>
+    // Ensure Select2 reflects new options inside modal
+    if ($loc.hasClass("select2-hidden-accessible")) {
+      $loc.trigger('change.select2'); // refresh
+    }
+    $loc.select2({ dropdownParent: $('#transferModal') });
 
-  function transferBtn(remark , suggestedJurisdictionId , assignedFromLocationId, gstIn, caseReportingDate, period){
-
-    $("#remark").val(remark);
-    $("#assignedFromLocationId").val(assignedFromLocationId);
-    $("#gstIn").val(gstIn);
-    $("#caseReportingDate").val(caseReportingDate);
-    $("#period").val(period);
-
-    var selectValues = JSON.parse('${locatoinMap}');
-
-    // console.log(selectValues);
-    const selectElement = document.getElementById('locationId');
-
-    $("#locationId").val(suggestedJurisdictionId);
-
-    //Remove all previous options from select drop-down
-    $('#locationId').children().remove().end().append('<option disabled selected value="">Select Jurisdiction</option>') ;
-
-    $.each(selectValues, function(key, value) {
-      // console.log(key);
-      if(key != assignedFromLocationId){
-				if (key == suggestedJurisdictionId) {
-					$('#locationId').append('<option selected value="' + key + '">' + selectValues[key] + '</option>');
-				} else {
-					$('#locationId').append('<option value="' + key + '">' + selectValues[key] + '</option>');
-				}
-      }
-		}); 
-
+    // Show modal
     $("#transferModal").modal('show');
-
   }
+
+  // Hardening controls (kept consistent with other pages)
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if ((e.ctrlKey && k === 'u') || k === 'f12' || k === 'f5' || (e.ctrlKey && k === 'r')) e.preventDefault();
+  });
+  $(document).ready(function () {
+    function disableBack() { window.history.forward(); }
+    window.onload = disableBack;
+    window.onpageshow = evt => { if (evt.persisted) disableBack(); };
+  });
 </script>
-
-
 </body>
 </html>

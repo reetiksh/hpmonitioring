@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -21,13 +21,11 @@
   <!-- Optional -->
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 
-  <!-- Keep sidebar + content perfectly aligned -->
   <style>
     :root{ --hp-sidebar-width: 210px; }
     .app-sidebar{ width: var(--hp-sidebar-width) !important; }
-    .app-main{ margin-left: 0px !important; transition: margin-left .2s ease; }
+    .app-main{ margin-left: 0 !important; transition: margin-left .2s ease; }
     body.sidebar-collapse .app-main{ margin-left: 0 !important; }
-    @media (max-width: 991.98px){ .app-main{ margin-left: 0 !important; } }
 
     /* Make any .container inside .app-content full width */
     .app-content > .container,
@@ -45,11 +43,11 @@
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
 
-  <!-- Header / Sidebar (AdminLTE 4 versions) -->
+  <!-- Header / Sidebar -->
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
 
-  <!-- Modals kept for parity with other pages -->
+  <!-- Modals kept for parity with other pages (no data/logic changes) -->
   <jsp:include page="../ru/verifier_recommended.jsp" />
   <jsp:include page="../ru/verifier_raisequery.jsp" />
 
@@ -79,58 +77,58 @@
             <div class="table-responsive">
               <table id="example1" class="table table-bordered table-striped w-100">
                 <thead>
-                <tr>
-                  <th class="text-center align-middle">GSTIN</th>
-                  <th class="text-center align-middle">Taxpayer Name</th>
-                  <th class="text-center align-middle">Jurisdiction</th>
-                  <th class="text-center align-middle">Period</th>
-                  <th class="text-center align-middle">Reporting Date (DD-MM-YYYY)</th>
-                  <th class="text-center align-middle">Indicative Value(₹)</th>
-                  <th class="text-center align-middle">Case Category</th>
-                  <th class="text-center align-middle">Updating Date</th>
-                  <th class="text-center align-middle">Action Status</th>
-                  <th class="text-center align-middle">Case Id</th>
-                  <th class="text-center align-middle">Case Stage</th>
-                  <th class="text-center align-middle">Case Stage ARN</th>
-                  <th class="text-center align-middle">Amount(₹)</th>
-                  <th class="text-center align-middle">Recovery Stage</th>
-                  <th class="text-center align-middle">Recovery Stage ARN</th>
-                  <th class="text-center align-middle">Recovery Via DRC03(₹)</th>
-                  <th class="text-center align-middle">Recovery Against Demand(₹)</th>
-                  <th class="text-center align-middle">Parameter</th>
-                  <th class="text-center align-middle">Status</th>
-                  <th class="text-center align-middle">Supporting File</th>
-                </tr>
+                  <tr>
+                    <th class="text-center align-middle">GSTIN</th>
+                    <th class="text-center align-middle">Taxpayer Name</th>
+                    <th class="text-center align-middle">Jurisdiction</th>
+                    <th class="text-center align-middle">Period</th>
+                    <th class="text-center align-middle">Reporting Date (DD-MM-YYYY)</th>
+                    <th class="text-center align-middle">Indicative Value(₹)</th>
+                    <th class="text-center align-middle">Case Category</th>
+                    <th class="text-center align-middle">Updating Date</th>
+                    <th class="text-center align-middle">Action Status</th>
+                    <th class="text-center align-middle">Case Id</th>
+                    <th class="text-center align-middle">Case Stage</th>
+                    <th class="text-center align-middle">Case Stage ARN</th>
+                    <th class="text-center align-middle">Amount(₹)</th>
+                    <th class="text-center align-middle">Recovery Stage</th>
+                    <th class="text-center align-middle">Recovery Stage ARN</th>
+                    <th class="text-center align-middle">Recovery Via DRC03(₹)</th>
+                    <th class="text-center align-middle">Recovery Against Demand(₹)</th>
+                    <th class="text-center align-middle">Parameter</th>
+                    <th class="text-center align-middle">Status</th>
+                    <th class="text-center align-middle">Supporting File</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${raisedQueryListByVerifier}" var="object">
-                  <tr>
-                    <td><c:out value="${object.id.GSTIN}"/></td>
-                    <td><c:out value="${object.taxpayerName}"/></td>
-                    <td><c:out value="${object.locationDetails.locationName}"/></td>
-                    <td><c:out value="${object.id.period}"/></td>
-                    <td><fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy"/></td>
-                    <td><c:out value="${object.indicativeTaxValue}"/></td>
-                    <td><c:out value="${object.category}"/></td>
-                    <td><fmt:formatDate value="${object.caseUpdateDate}" pattern="dd-MM-yyyy HH:mm:ss"/></td>
-                    <td><c:out value="${object.actionStatus.name}"/></td>
-                    <td><c:out value="${object.caseId}"/></td>
-                    <td><c:out value="${object.caseStage.name}"/></td>
-                    <td><c:out value="${object.caseStageArn}"/></td>
-                    <td><c:out value="${object.demand}"/></td>
-                    <td><c:out value="${object.recoveryStage.name}"/></td>
-                    <td><c:out value="${object.recoveryStageArn}"/></td>
-                    <td><c:out value="${object.recoveryByDRC3}"/></td>
-                    <td><c:out value="${object.recoveryAgainstDemand}"/></td>
-                    <td><c:out value="${object.parameter}"/></td>
-                    <td>Raised Query</td>
-                    <td class="text-center">
-                      <a href="/ru/downloadFile?fileName=${object.fileName}" class="btn btn-primary">
-                        <i class="fas fa-download"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </c:forEach>
+                  <c:forEach items="${raisedQueryListByVerifier}" var="object">
+                    <tr>
+                      <td><c:out value="${object.id.GSTIN}"/></td>
+                      <td><c:out value="${object.taxpayerName}"/></td>
+                      <td><c:out value="${object.locationDetails.locationName}"/></td>
+                      <td><c:out value="${object.id.period}"/></td>
+                      <td><fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy"/></td>
+                      <td><c:out value="${object.indicativeTaxValue}"/></td>
+                      <td><c:out value="${object.category}"/></td>
+                      <td><fmt:formatDate value="${object.caseUpdateDate}" pattern="dd-MM-yyyy HH:mm:ss"/></td>
+                      <td><c:out value="${object.actionStatus.name}"/></td>
+                      <td><c:out value="${object.caseId}"/></td>
+                      <td><c:out value="${object.caseStage.name}"/></td>
+                      <td><c:out value="${object.caseStageArn}"/></td>
+                      <td><c:out value="${object.demand}"/></td>
+                      <td><c:out value="${object.recoveryStage.name}"/></td>
+                      <td><c:out value="${object.recoveryStageArn}"/></td>
+                      <td><c:out value="${object.recoveryByDRC3}"/></td>
+                      <td><c:out value="${object.recoveryAgainstDemand}"/></td>
+                      <td><c:out value="${object.parameter}"/></td>
+                      <td>Raised Query</td>
+                      <td class="text-center">
+                        <a href="/ru/downloadFile?fileName=${object.fileName}" class="btn btn-primary">
+                          <i class="fas fa-download"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </c:forEach>
                 </tbody>
               </table>
             </div>
@@ -201,11 +199,16 @@
     if ((e.ctrlKey && k === 'u') || k === 'f12' || k === 'f5' || (e.ctrlKey && k === 'r')) e.preventDefault();
   });
 
-  /* Safe-guard old click hooks (only bind if buttons exist) */
+  /* Bootstrap 5 modal helpers (only if those buttons exist on the page) */
+  function showBs5Modal(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+    bootstrap.Modal.getOrCreateInstance(el).show();
+  }
   const rb = document.getElementById('recommendedBtn');
-  if (rb) rb.addEventListener('click', () => $("#recommendedModal").modal('show'));
+  if (rb) rb.addEventListener('click', () => showBs5Modal('recommendedModal'));
   const rq = document.getElementById('raiseQueryBtn');
-  if (rq) rq.addEventListener('click', () => $("#raisequeryModal").modal('show'));
+  if (rq) rq.addEventListener('click', () => showBs5Modal('raisequeryModal'));
 </script>
 </body>
 </html>

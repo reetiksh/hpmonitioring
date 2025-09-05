@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cases for Random Verification</title>
 
-  <!-- <link rel="stylesheet" href="/static/dist/css/googleFront/googleFrontFamilySourceSansPro.css"> -->
   <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -22,8 +21,7 @@
   <jsp:include page="../../layout/header.jsp"/>
   <jsp:include page="../../layout/sidebar.jsp"/>
   <jsp:include page="../scrutiny_ru/random_recommended_pop_up.jsp"/>
-  
-  
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -40,6 +38,7 @@
         </div>
       </div>
     </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -48,89 +47,100 @@
               <div class="card-header">
                 <h3 class="card-title">Cases for Random Verification</h3>
               </div>
-              
-              <!-- <div class="alert alert-success" role="alert" style="display: none;" id="appealRevisionCaseApprovedAlertSuccess">
-              <div style="display:none;" id="appealRevisionCaseApprovedTagLine">Case Approved Successfully !</div>
-            </div>
-            <div class="alert alert-success" role="alert" style="display: none;" id="appealRevisionCaseRejectedAlertFail">
-              <div style="display:none;" id="appealRevisionCaseRejectedTagLine">Case Reverted Successfully !</div>
-              </div> -->
-              
-              <div class="card-body">
-				<c:if test="${not empty message}">
-					<div class="alert alert-success alert-dismissible fade show"
-						id="message" role="alert">
-						<strong>${message}</strong>
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</c:if>
 
-				<table id="example1" class="table table-bordered table-striped">
+              <div class="card-body">
+                <c:if test="${not empty message}">
+                  <div class="alert alert-success alert-dismissible fade show" id="message" role="alert">
+                    <strong><c:out value="${message}"/></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </c:if>
+
+                <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                    <tr>
-                      <th style="text-align: center; vertical-align: middle;">GSTIN</th>
-                      <th style="text-align: center; vertical-align: middle;">Taxpayer Name</th>
-                      <th style="text-align: center; vertical-align: middle;">Jurisdiction</th>
-                      <th style="text-align: center; vertical-align: middle;">Period</th>
-                      <th style="text-align: center; vertical-align: middle;">Reporting Date (DD-MM-YYYY)</th>
-                      <th style="text-align: center; vertical-align: middle;">Indicative Value(₹)</th>
-                      <th style="text-align: center; vertical-align: middle;">Case Category</th>
-                      <th style="text-align: center; vertical-align: middle;">Amount(₹)</th>
-                      <th style="text-align: center; vertical-align: middle;">Recovery Stage</th>
-                      <th style="text-align: center; vertical-align: middle;">Recovery Stage ARN</th>
-                      <th style="text-align: center; vertical-align: middle;">Recovery Via DRC03(₹)</th>
-                      <th style="text-align: center; vertical-align: middle;">Status</th>
-                      <th style="text-align: center; vertical-align: middle;">Case File</th>
-                      
-                      
-                      <th style="text-align: center; vertical-align: middle;">Action</th> 
-                    </tr>
+                  <tr>
+                    <th class="text-center align-middle">GSTIN</th>
+                    <th class="text-center align-middle">Taxpayer Name</th>
+                    <th class="text-center align-middle">Jurisdiction</th>
+                    <th class="text-center align-middle">Period</th>
+                    <th class="text-center align-middle">Reporting Date (DD-MM-YYYY)</th>
+                    <th class="text-center align-middle">Indicative Value (₹)</th>
+                    <th class="text-center align-middle">Case Category</th>
+                    <th class="text-center align-middle">Amount (₹)</th>
+                    <th class="text-center align-middle">Recovery Stage</th>
+                    <th class="text-center align-middle">Recovery Stage ARN</th>
+                    <th class="text-center align-middle">Recovery Via DRC03 (₹)</th>
+                    <th class="text-center align-middle">Status</th>
+                    <th class="text-center align-middle">Case File</th>
+                    <th class="text-center align-middle">Action</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    <c:forEach items="${mstScrutinyCasesList}" var="object" varStatus="loop">
+                  <c:choose>
+                    <c:when test="${not empty mstScrutinyCasesList}">
+                      <c:forEach items="${mstScrutinyCasesList}" var="object">
+                        <tr>
+                          <td class="text-center align-middle"><c:out value="${object.id.GSTIN}"/></td>
+                          <td class="text-center align-middle"><c:out value="${object.taxpayerName}"/></td>
+                          <td class="text-center align-middle"><c:out value="${object.locationDetails.locationName}"/></td>
+                          <td class="text-center align-middle"><c:out value="${object.id.period}"/></td>
+                          <td class="text-center align-middle">
+                            <fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy"/>
+                          </td>
+                          <td class="text-center align-middle">
+                            <fmt:formatNumber value="${object.indicativeTaxValue}" pattern="#,##,##0"/>
+                          </td>
+                          <td class="text-center align-middle"><c:out value="${object.category.name}"/></td>
+                          <td class="text-center align-middle">
+                            <fmt:formatNumber value="${object.amountRecovered}" pattern="#,##,##0"/>
+                          </td>
+                          <td class="text-center align-middle"><c:out value="${object.recoveryStage.name}"/></td>
+                          <td class="text-center align-middle"><c:out value="${object.recoveryStageArn}"/></td>
+                          <td class="text-center align-middle">
+                            <fmt:formatNumber value="${object.recoveryByDRC03}" pattern="#,##,##0"/>
+                          </td>
+                          <td class="text-center align-middle"><c:out value="${object.actionDescription}"/></td>
+                          <td class="text-center align-middle">
+                            <c:if test="${object.filePath != null}">
+                              <c:url var="dlUrl" value="/scrutiny_ru/downloadUploadedPdfFile">
+                                <c:param name="fileName" value="${object.filePath}"/>
+                              </c:url>
+                              <a href="${dlUrl}">
+                                <button type="button" class="btn btn-primary" title="Download Case File">
+                                  <i class="fa fa-download"></i>
+                                </button>
+                              </a>
+                            </c:if>
+                          </td>
+                          <td class="text-center align-middle">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    title="Recommend for Random Verification"
+                                    onclick="callRecommendedScrutinyCase('${object.id.GSTIN}','${object.id.caseReportingDate}','${object.id.period}')">
+                              Recommend
+                            </button>
+                          </td>
+                        </tr>
+                      </c:forEach>
+                    </c:when>
+                    <c:otherwise>
                       <tr>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.GSTIN}" /></td> 
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.taxpayerName}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.locationDetails.locationName}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.period}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><fmt:formatDate value="${object.id.caseReportingDate}" pattern="dd-MM-yyyy" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.indicativeTaxValue}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.category.name}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.amountRecovered}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.recoveryStage.name}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.recoveryStageArn}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.recoveryByDRC03}" /></td>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.actionDescription}" /></td>
-                        
-                        <td style="text-align: center; vertical-align: middle;">
-                        <c:if test="${object.filePath != null}">
-							<a href="/scrutiny_ru/downloadUploadedPdfFile?fileName=${object.filePath}">
-								<button type="button" class="btn btn-primary">
-									<i class="fa fa-download"></i>
-								</button>
-							</a>
-						</c:if>
-						</td>
-                        
-                        
-                        
-                       <td style="text-align: center; vertical-align: middle;">
-                          <button type="button" onclick="callRecommendedScrutinyCase('${object.id.GSTIN}','${object.id.caseReportingDate}','${object.id.period}');" class="btn btn-primary" id="appealRevisioinRejectBtn">Recommend</button>
-                       </td>
-                      </tr> 
-                    </c:forEach>
+                        <td colspan="14" class="text-center text-muted">No cases available.</td>
+                      </tr>
+                    </c:otherwise>
+                  </c:choose>
                   </tbody>
                 </table>
-              </div>
+              </div><!-- /.card-body -->
             </div>
           </div>
         </div>
       </div>
     </section>
   </div>
+
   <jsp:include page="../../layout/footer.jsp"/>
   <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
@@ -151,48 +161,38 @@
 <script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 <script src="/static/dist/js/adminlte.min.js"></script>
-<script> 
-$(document).ready(function() {
-	$("#message").fadeTo(2000, 500).slideUp(500, function() {
-		$("#message").slideUp(500);
-	});
-});
-
-
- $(function () {
-    $("#example1").DataTable({
-    	"responsive": false, "lengthChange": false, "autoWidth": true, "scrollX": true,
-      "buttons": 
-        [
-            "excel",
-            "pdf", 
-            "print", 
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 
 <script>
-	
-	
-	function callRecommendedScrutinyCase(gstin,reportingDate,period){
-	 $("#recommendScrutinyGstin").val(gstin);
-	  $("#recommendScrutinyPeriod").val(period);
-	  $("#recommendScrutinyCaseReportingDate").val(reportingDate);
-	  
-	  
-	$("#randomRecommendScrutinyCaseModal").modal('show');
-	}
-   
+  // Soft-dismiss success alert
+  $(function(){
+    $("#message").fadeTo(2000, 500).slideUp(500, function(){ $("#message").slideUp(500); });
+  });
+
+  // DataTables setup
+  $(function () {
+    $("#example1").DataTable({
+      responsive: false,
+      lengthChange: false,
+      autoWidth: true,
+      scrollX: true,
+      buttons: ["excel","pdf","print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+
+  // Open recommendation modal + seed hidden fields inside popup
+  function callRecommendedScrutinyCase(gstin, reportingDate, period){
+    $("#recommendScrutinyGstin").val(gstin);
+    $("#recommendScrutinyPeriod").val(period);
+    $("#recommendScrutinyCaseReportingDate").val(reportingDate);
+    $("#randomRecommendScrutinyCaseModal").modal('show');
+  }
+
+  // (Optional) basic hardening similar to other pages
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k = (e.key||'').toLowerCase();
+    if ((e.ctrlKey && k === 'u') || k === 'f12' || k === 'f5' || (e.ctrlKey && k === 'r')) e.preventDefault();
+  });
 </script>
 </body>
 </html>

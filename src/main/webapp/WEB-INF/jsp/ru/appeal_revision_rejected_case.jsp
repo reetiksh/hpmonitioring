@@ -38,7 +38,7 @@
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
 
-  <!-- Header & Sidebar (already migrated pieces) -->
+  <!-- Header & Sidebar -->
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
 
@@ -181,32 +181,30 @@
 <!-- overlay for mobile sidebar (tap outside to close) -->
 <div class="sidebar-overlay" data-lte-dismiss="sidebar"></div>
 
-<!-- Confirm modal kept as-is -->
+<!-- Confirm modal (BS5 markup: header/body/footer directly under .modal-content) -->
 <div class="modal fade" id="closeCaseModal" tabindex="-1" aria-labelledby="closeCaseModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div>
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmationModalTitle">Do you want to proceed ahead with case recommendation ?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>I hereby undertake that;</p>
-          <p><i class="fa fa-check"></i> All the points raised by EIU pertaining to this Taxpayer have been dealt carefully in the light of the provisions of the GST laws</p>
-          <p><i class="fa fa-check"></i> Applicable Tax has been levied as per the provisions of GST acts/rules 2017</p>
-          <p><i class="fa fa-check"></i> Applicable Interest has been levied as per the provisions of GST acts/rules 2017</p>
-          <p><i class="fa fa-check"></i> Applicable Penalty has been levied as per the provisions of GST acts/rules 2017</p>
-          <p><input type="checkbox" id="mycheckbox" name="checkbox"> I hereby declare that above information is true and correct to the best of my knowledge</p>
-        </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalTitle">Do you want to proceed ahead with case recommendation ?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>I hereby undertake that;</p>
+        <p><i class="fa fa-check"></i> All the points raised by EIU pertaining to this Taxpayer have been dealt carefully in the light of the provisions of the GST laws</p>
+        <p><i class="fa fa-check"></i> Applicable Tax has been levied as per the provisions of GST acts/rules 2017</p>
+        <p><i class="fa fa-check"></i> Applicable Interest has been levied as per the provisions of GST acts/rules 2017</p>
+        <p><i class="fa fa-check"></i> Applicable Penalty has been levied as per the provisions of GST acts/rules 2017</p>
+        <p><input type="checkbox" id="mycheckbox" name="checkbox"> I hereby declare that above information is true and correct to the best of my knowledge</p>
         <input type="hidden" id="gstno" name="gstno">
         <input type="hidden" id="date" name="date">
         <input type="hidden" id="period" name="period">
-        <div class="modal-footer">
-          <div id="checked" style="display:none">
-            <button onclick="submitVerifierDeclaration()" class="btn btn-primary" id="okayBtn">Okay</button>
-          </div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">Cancel</button>
+      </div>
+      <div class="modal-footer">
+        <div id="checked" style="display:none">
+          <button onclick="submitVerifierDeclaration()" class="btn btn-primary" id="okayBtn">Okay</button>
         </div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">Cancel</button>
       </div>
     </div>
   </div>
@@ -257,20 +255,22 @@
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   });
 
-  /* Page helpers */
+  /* Page helpers — use Bootstrap 5 Modal API */
   function callRecommended(gstin,circle,reportingDate,period){
     $("#gstinno").val(gstin);
     $("#circle").val(circle);
     $("#reportingdate").val(reportingDate);
     $("#period").val(period);
-    $("#closeCaseModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('closeCaseModal'));
+    m.show();
   }
 
   function callAppealOrRevisionAfterRejection(gstin,reportingDate,period){
     $("#appRevRejGstiNo").val(gstin);
     $("#appRevRejReportingdate").val(reportingDate);
     $("#appRevRejPeriod").val(period);
-    $("#appealRevisonAfterRejectionModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('appealRevisonAfterRejectionModal'));
+    m.show();
   }
 
   function callRaiseQuery(gstin,circle,reportingDate,period){
@@ -278,7 +278,8 @@
     $("#circlerq").val(circle);
     $("#reportingdaterq").val(reportingDate);
     $("#periodrq").val(period);
-    $("#raisequeryModal").modal('show');
+    const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('raisequeryModal'));
+    m.show();
   }
 
   $('#mycheckbox').on('change', function(){

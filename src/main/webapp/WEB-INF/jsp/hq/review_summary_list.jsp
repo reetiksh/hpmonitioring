@@ -9,21 +9,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HP GST |Review Case Summary</title>
   <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
+
+  <!-- AdminLTE 4 + Bootstrap 5 + Font Awesome 6 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css" rel="stylesheet"/>
+
+  <!-- DataTables (Bootstrap 5 build) + Buttons/Responsive -->
+  <link href="https://cdn.datatables.net/v/bs5/dt-1.13.8/r-2.5.0/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet"/>
+
+  <!-- jQuery Confirm -->
+  <link href="https://cdn.jsdelivr.net/npm/jquery-confirm@3.3.4/css/jquery-confirm.min.css" rel="stylesheet"/>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition layout-fixed">
 <div class="wrapper">
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
+
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -40,6 +46,7 @@
         </div>
       </div>
     </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -64,7 +71,11 @@
                     <tbody>
                       <c:forEach items="${categoryTotals}" var="total">
                         <tr>
-                          <td style="text-align: center; vertical-align: middle;"><a href="/hq/review_cases_list?category=${total.category}"><c:out value="${total.category}" /></a></td>
+                          <td style="text-align: center; vertical-align: middle;">
+                            <a href="/hq/review_cases_list?category=${total.category}">
+                              <c:out value="${total.category}" />
+                            </a>
+                          </td>
                           <td style="text-align: center; vertical-align: middle;"><c:out value="${total.totalRows}" /></td>
                           <td style="text-align: center; vertical-align: middle;"><fmt:formatNumber value="${total.totalIndicativeTax}" pattern="#,##,##0"/></td>
                           <td style="text-align: center; vertical-align: middle;"><fmt:formatNumber value="${total.totalAmount}" pattern="#,##,##0"/></td>
@@ -75,88 +86,75 @@
                     </tbody>
                   </table>
                 </c:if>
+
                 <c:if test="${empty categoryTotals}">
-                  <div class="col-12" style="text-align: center;">
+                  <div class="col-12 text-center">
                     <i class="fa fa-info-circle" style="font-size:100px;color:rgb(97, 97, 97)" aria-hidden="true"></i><br>
                     <span style="font-size:35px;color:rgb(97, 97, 97)">No Review Case List Available</span>
                   </div>
                 </c:if>
-              </div>
-            </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
           </div>
         </div>
       </div>
     </section>
   </div>
-  <jsp:include page="../layout/footer.jsp"/>
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
-</div>
-<script src="/static/plugins/jquery/jquery.min.js"></script>
-<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/static/plugins/jszip/jszip.min.js"></script>
-<script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="/static/dist/js/adminlte.min.js"></script>
-<script src="/static/dist/js/jquery-confirm.min.js"></script>
-<script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12') {
-        e.preventDefault();
-    }
-});
- // Disable back and forward cache
-$(document).ready(function () {
-    function disableBack() {window.history.forward()}
 
-    window.onload = disableBack();
-    window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
-});
-// Disable refresh
-document.onkeydown = function (e) {
+  <jsp:include page="../layout/footer.jsp"/>
+  <aside class="control-sidebar control-sidebar-dark"></aside>
+</div>
+
+<!-- JS: jQuery -> Bootstrap 5 -> AdminLTE 4 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+
+<!-- DataTables (Bootstrap 5 build) + extensions -->
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.8/r-2.5.0/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.7/build/pdfmake.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.7/build/vfs_fonts.js"></script>
+
+<!-- jQuery Confirm -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-confirm@3.3.4/js/jquery-confirm.min.js"></script>
+
+<script>
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+document.addEventListener('keydown', function(e) { if (e.ctrlKey && e.key === 'u') { e.preventDefault(); } });
+document.addEventListener('keydown', function(e) { if (e.key === 'F12') { e.preventDefault(); } });
+
+// Disable back/forward cache
+$(document).ready(function () {
+  function disableBack() { window.history.forward() }
+  window.onload = disableBack();
+  window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+
+  // Disable refresh
+  document.onkeydown = function (e) {
     if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-        e.preventDefault();
-        
+      e.preventDefault();
     }
-};
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": 
-        [
-          "excel",
-          "pdf",
-          "print", 
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
+  };
+
+  $("#example1").DataTable({
+    responsive: true,
+    lengthChange: false,
+    autoWidth: false,
+    buttons: ["excel", "pdf", "print"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+  // Keep your secondary initializer in case you add #example2 later
+  $('#example2').DataTable({
+    paging: true,
+    lengthChange: false,
+    searching: false,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+    responsive: true
   });
+});
 </script>
 </body>
 </html>

@@ -1,477 +1,390 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HP GST | Scrutiny Review List</title>
 
-<style>
-.modal-lg, .modal-xl {
-    max-width: 1400px;
-}
+  <!-- AdminLTE 4 / Bootstrap 5 -->
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 
-/* .table-responsive {
- overflow: scroll;
- max-height: 800px;
- } */
+  <!-- DataTables + Buttons (kept) -->
+  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+  <!-- jQuery Confirm (used by your code) -->
+  <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 
-.btn-outline-custom {
-  color: #495057;
-  border: 1px solid #ced4da;
-  text-align:left;
-}
+  <style>
+    .modal-lg, .modal-xl { max-width: 1400px; }
+    .btn-outline-custom { color:#495057; border:1px solid #ced4da; text-align:left; }
+  </style>
 
-
-</style>
-
-
-<script>
-
+  <script>
     function showHideOtherRemark(){
-        
-	var selectedValue = $('input[name="remarks"]:checked').val();
-    
-    if(selectedValue == 1){
-    
-          $("#remarksId").show();
-    }else{
-    
-          $("#remarksId").hide();
+      var selectedValue = $('input[name="remarks"]:checked').val();
+      if(selectedValue == 1){
+        $("#remarksId").show();
+      }else{
+        $("#remarksId").hide();
+      }
     }
-    
-    }
-    
-</script>
+  </script>
+</head>
+<body class="sidebar-mini layout-fixed">
+<div class="wrapper">
 
-
-<!-- <div class="row"> -->
-	<table id="scrutinyListTable" class="table table-bordered table-striped table-responsive">
-		<thead>
-			<tr>
-				<th style="text-align: center; vertical-align: middle;">GSTIN</th>
-				<th style="text-align: center; vertical-align: middle;">Taxpayer Name</th>
-				<th style="text-align: center; vertical-align: middle;">Jurisdiction</th>
-				<th style="text-align: center; vertical-align: middle;">Period</th>
-				<th style="text-align: center; vertical-align: middle;">Reporting Date<br>(DD-MM-YYYY)</th>
-				<th style="text-align: center; vertical-align: middle;">Indicative Value(₹)</th>
-				<th style="text-align: center; vertical-align: middle;">Currently With</th>
-				<!-- <th style="text-align: center; vertical-align: middle;">Action Status</th> -->
-				<th style="text-align: center; vertical-align: middle;">Case ID</th>
-				<th style="text-align: center; vertical-align: middle;">Case Stage</th>
-				<th style="text-align: center; vertical-align: middle;">Case Stage ARN</th> 
-				<th style="text-align: center; vertical-align: middle;">Amount(₹)</th>
-				<th style="text-align: center; vertical-align: middle;">Recovery Stage</th>
-				<th style="text-align: center; vertical-align: middle;">Recovery Stage ARN</th>
-				<th style="text-align: center; vertical-align: middle;">Recovery Via DRC03(₹)</th>
-				<th style="text-align: center; vertical-align: middle;">Supporting Document</th>
-				<!--<th style="text-align: center; vertical-align: middle;">Recovery Against Demand(₹)</th>
-				<th style="text-align: center; vertical-align: middle;">Review Comments</th>
-				<th style="text-align: center; vertical-align: middle;">Case File</th>
-				<th style="text-align: center; vertical-align: middle;">Action</th> -->
-			</tr>
-		</thead>
-		<tbody>
-		    <c:forEach items="${reviewCasesList}" var="mstScrutinyCase">             
-			<tr>
-				<td>${mstScrutinyCase.id.GSTIN}</td>
-				<td>${mstScrutinyCase.taxpayerName}</td>
-				<td>${mstScrutinyCase.locationDetails.locationName}</td>
-				<td>${mstScrutinyCase.id.period}</td>
-				<td><fmt:formatDate value="${mstScrutinyCase.id.caseReportingDate}"  pattern="dd-MM-yyyy" /></td>
-				<td>${mstScrutinyCase.indicativeTaxValue}</td>
-				<td>${mstScrutinyCase.currentlyAssignedTo}</td>
-				<%-- <td>${item.actionStatusName}</td> --%>
-				<td>${mstScrutinyCase.caseId}</td>
-				<td>${mstScrutinyCase.caseStage.name}</td>
-				<td>${mstScrutinyCase.caseStageArn}</td> 
-				<td>${mstScrutinyCase.amountRecovered}</td>
-				<td>${mstScrutinyCase.recoveryStage.name}</td>
-				<td>${mstScrutinyCase.recoveryStageArn}</td>
-				<td>${mstScrutinyCase.recoveryByDRC03}</td>
-				<td>
-				<a href="/scrutiny_fo/downloadUploadedPdfFile?fileName=${mstScrutinyCase.scrutinyExtensionNoDocument.extensionFileName}"><button type="button" class="btn btn-primary"><i class="fa fa-download"></i></button></a>
-				</td>
-				<%--<td>${mstScrutinyCase.recoveryAgainstDemand}</td>
-				<td>${mstScrutinyCase.remarks} </td>
-				<td>
-				<c:if test="${item.uploadedFileName != null}">
-				<a href="/fo/downloadUploadedPdfFile?fileName=${mstScrutinyCase.uploadedFileName}"><button type="button" class="btn btn-primary"><i class="fa fa-download"></i></button></a>
-				</c:if>
-				</td>
-				<td>
-					<button type="button" style="margin-bottom:5px;" class="btn btn-primary viewbtn" onclick="view('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Update</button>
-						    
-				    <c:choose>  
-				    <c:when test="${item.actionStatus eq '3' && item.caseStage eq '5'}">  
-				       <button type="button" class="btn btn-primary"  onclick="closeCase('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Close</button> 
-				    </c:when>
-				    <c:when test="${item.actionStatus eq '3' && item.caseStage eq '6'}">  
-				       <button type="button" class="btn btn-primary"  onclick="closeCase('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Close</button> 
-				    </c:when>
-				    <c:when test="${item.actionStatus eq '3' && item.caseStage eq '8'}">  
-				       <button type="button" class="btn btn-primary"  onclick="closeCase('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Close</button> 
-				    </c:when>
-				     <c:when test="${item.actionStatus eq '3' && item.caseStage eq '9'}">  
-				       <button type="button" class="btn btn-primary"  onclick="closeCase('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Close</button> 
-				    </c:when>
-				    <c:otherwise>
-				       <button type="button" class="btn btn-primary" disabled onclick="closeCase('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}')" >Close</button> 
-				    </c:otherwise>
-					</c:choose>
-					 
-					<c:if test="${item.caseIdUpdate eq 'yes'}">    
-					<button type="button" style="margin-bottom:5px;margin-top:5px;" class="btn btn-primary" onclick="updateCaseId('${item.GSTIN_ID}' , '${item.caseReportingDate_ID}' , '${item.period_ID}' , '${item.caseId}')" >Update Case ID</button>    
-					</c:if>     
-					    
-				</td> --%>
-			</tr>
-			</c:forEach>
-		</tbody>
-		
-	</table>
-<!-- </div> -->
-
-<div class="modal fade" id="updateSummaryViewModal" tabindex="-1" role="dialog" aria-labelledby="updateSummaryViewTitle" aria-hidden="true" >
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateSummaryViewModalTitle">Update Case </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">    
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <div class="modal-body" id="updateSummaryViewBody" >
-       
-      </div>
-      
-    </div>
+  <!-- Optional preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="/static/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
-</div>
 
-<div class="modal fade" id="closeCaseModal" tabindex="-1" role="dialog" aria-labelledby="closeCaseModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  
-    <div class="modal-content">
-     <form method="POST" action="fo_close_cases" name="closeCaseForm" >
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalTitle">Do you want to proceed ahead with closure of the case?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-      
-      <div class="modal-body">
-	    <p>I hereby undertake that;</p>
-		<p><i class="fa fa-check" aria-hidden="true" ></i> All the points raised by EIU pertaining to this Taxpayer have been dealt carefully in the light of the provisions of the GST laws</p> 
-		<p><i class="fa fa-check" aria-hidden="true" ></i> Applicable Tax has been levied as per the provisions of GST acts/rules 2017</p>
-		<p><i class="fa fa-check" aria-hidden="true" ></i> Applicable Interest has been levied as per the provisions of GST acts/rules 2017</p>
-		<p><i class="fa fa-check" aria-hidden="true" ></i> Applicable Penalty has been levied as per the provisions of GST acts/rules 2017</p>
-		<p><input type="checkbox" id="mycheckbox" name="checkbox" > I hereby declare that above information is true and correct to the best of my knowledge</p>
-	  </div>
-      
-      <input type="hidden" id="gstno" name="gstno" >
-      <input type="hidden" id="date" name="date" >
-      <input type="hidden" id="period" name="period" >
-      
-      <div class="modal-footer">
-        <div id="checked" style="display:none">
-        <button type="submit" class="btn btn-primary" id="okayBtn" >Okay</button>
+  <jsp:include page="../layout/header.jsp" />
+  <jsp:include page="../layout/sidebar.jsp" />
+
+  <div class="content-wrapper">
+    <!-- Header -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6"><h1>Scrutiny Review List</h1></div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-end">
+              <li class="breadcrumb-item"><a href="/fo/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Scrutiny Review</li>
+            </ol>
+          </div>
         </div>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn" >Cancel</button>
       </div>
-      </form>
-    </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <div class="card card-primary">
+          <div class="card-header"><h3 class="card-title">Cases</h3></div>
+          <div class="card-body">
+
+            <!-- YOUR ORIGINAL TABLE (unchanged) -->
+            <table id="scrutinyListTable" class="table table-bordered table-striped table-responsive">
+              <thead>
+                <tr>
+                  <th style="text-align:center;vertical-align:middle;">GSTIN</th>
+                  <th style="text-align:center;vertical-align:middle;">Taxpayer Name</th>
+                  <th style="text-align:center;vertical-align:middle;">Jurisdiction</th>
+                  <th style="text-align:center;vertical-align:middle;">Period</th>
+                  <th style="text-align:center;vertical-align:middle;">Reporting Date<br>(DD-MM-YYYY)</th>
+                  <th style="text-align:center;vertical-align:middle;">Indicative Value(₹)</th>
+                  <th style="text-align:center;vertical-align:middle;">Currently With</th>
+                  <th style="text-align:center;vertical-align:middle;">Case ID</th>
+                  <th style="text-align:center;vertical-align:middle;">Case Stage</th>
+                  <th style="text-align:center;vertical-align:middle;">Case Stage ARN</th>
+                  <th style="text-align:center;vertical-align:middle;">Amount(₹)</th>
+                  <th style="text-align:center;vertical-align:middle;">Recovery Stage</th>
+                  <th style="text-align:center;vertical-align:middle;">Recovery Stage ARN</th>
+                  <th style="text-align:center;vertical-align:middle;">Recovery Via DRC03(₹)</th>
+                  <th style="text-align:center;vertical-align:middle;">Supporting Document</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach items="${reviewCasesList}" var="mstScrutinyCase">
+                  <tr>
+                    <td>${mstScrutinyCase.id.GSTIN}</td>
+                    <td>${mstScrutinyCase.taxpayerName}</td>
+                    <td>${mstScrutinyCase.locationDetails.locationName}</td>
+                    <td>${mstScrutinyCase.id.period}</td>
+                    <td><fmt:formatDate value="${mstScrutinyCase.id.caseReportingDate}" pattern="dd-MM-yyyy" /></td>
+                    <td>${mstScrutinyCase.indicativeTaxValue}</td>
+                    <td>${mstScrutinyCase.currentlyAssignedTo}</td>
+                    <td>${mstScrutinyCase.caseId}</td>
+                    <td>${mstScrutinyCase.caseStage.name}</td>
+                    <td>${mstScrutinyCase.caseStageArn}</td>
+                    <td>${mstScrutinyCase.amountRecovered}</td>
+                    <td>${mstScrutinyCase.recoveryStage.name}</td>
+                    <td>${mstScrutinyCase.recoveryStageArn}</td>
+                    <td>${mstScrutinyCase.recoveryByDRC03}</td>
+                    <td>
+                      <a href="/scrutiny_fo/downloadUploadedPdfFile?fileName=${mstScrutinyCase.scrutinyExtensionNoDocument.extensionFileName}">
+                        <button type="button" class="btn btn-primary"><i class="fa fa-download"></i></button>
+                      </a>
+                    </td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- MODALS (Bootstrap 5 close buttons only; no logic change) -->
+        <div class="modal fade" id="updateSummaryViewModal" tabindex="-1" aria-labelledby="updateSummaryViewTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateSummaryViewModalTitle">Update Case</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="updateSummaryViewBody"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="closeCaseModal" tabindex="-1" aria-labelledby="closeCaseModalTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <form method="POST" action="fo_close_cases" name="closeCaseForm">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalTitle">Do you want to proceed ahead with closure of the case?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+                <div class="modal-body">
+                  <p>I hereby undertake that;</p>
+                  <p><i class="fa fa-check" aria-hidden="true"></i> All the points raised by EIU pertaining to this Taxpayer have been dealt carefully in the light of the provisions of the GST laws</p>
+                  <p><i class="fa fa-check" aria-hidden="true"></i> Applicable Tax has been levied as per the provisions of GST acts/rules 2017</p>
+                  <p><i class="fa fa-check" aria-hidden="true"></i> Applicable Interest has been levied as per the provisions of GST acts/rules 2017</p>
+                  <p><i class="fa fa-check" aria-hidden="true"></i> Applicable Penalty has been levied as per the provisions of GST acts/rules 2017</p>
+                  <p><input type="checkbox" id="mycheckbox" name="checkbox"> I hereby declare that above information is true and correct to the best of my knowledge</p>
+                </div>
+
+                <input type="hidden" id="gstno" name="gstno">
+                <input type="hidden" id="date" name="date">
+                <input type="hidden" id="period" name="period">
+
+                <div class="modal-footer">
+                  <div id="checked" style="display:none">
+                    <button type="submit" class="btn btn-primary" id="okayBtn">Okay</button>
+                  </div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="updateCaseidModal" tabindex="-1" aria-labelledby="updateCaseidModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Update Case ID</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <form method="POST" name="updatecaseidForm" id="updatecaseidForm" action="update_caseid" enctype="multipart/form-data">
+                <div class="modal-body">
+                  <input type="hidden" id="gstnocaseid" name="gstnocaseid">
+                  <input type="hidden" id="datecaseid" name="datecaseid">
+                  <input type="hidden" id="periodcaseid" name="periodcaseid">
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="gstin">Old Case ID</label>
+                        <input class="form-control" type="text" id="caseid" readonly />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="gstin">New Case ID Proposed<span style="color:red;"> *</span></label>
+                        <input class="form-control" maxlength="15" pattern="[A-Za-z0-9]{15}" id="newcaseid" name="caseid" title="Please enter 15-digits alphanumeric Case Id" required />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="message-text" class="col-form-label">Remarks<span style="color:red;"> *</span></label>
+                  </div>
+                  <div class="btn-group btn-group-vertical" role="group" data-toggle="buttons" style="width:100%;">
+                    <c:forEach items="${listRemarks}" var="item">
+                      <label class="btn btn-outline-custom">
+                        <input type="radio" name="remarks" id="${item.id}" onclick="showHideOtherRemark()" value="${item.id}" required> ${item.name}
+                      </label>
+                    </c:forEach>
+                  </div>
+                  <textarea class="form-control" id="remarksId" name="otherRemarks" style="display:none" placeholder="Remarks"></textarea>
+
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="message-text" class="col-form-label">Upload File<span style="color:red;"> *</span><span>(Only pdf files of size upto 10mb)</span></label>
+                  </div>
+                  <input type="file" id="filePath" name="filePath" accept="pdf" required />
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" id="transferCaseBtn">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </section>
   </div>
+
+  <jsp:include page="../layout/footer.jsp" />
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
 
+<!-- Core JS -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
 
+<!-- DataTables + Buttons (kept) -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/jszip/jszip.min.js"></script>
+<script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 
-<div class="modal fade" id="updateCaseidModal"  tabindex="-1" role="dialog" aria-labelledby="updateCaseidModal" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">Update Case ID</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">    
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <form method="POST" name="updatecaseidForm" id="updatecaseidForm" action="update_caseid" enctype="multipart/form-data" >
-      <div class="modal-body">
-       
-          <input type="hidden" id="gstnocaseid" name="gstnocaseid" >
-          <input type="hidden" id="datecaseid" name="datecaseid" >
-          <input type="hidden" id="periodcaseid" name="periodcaseid" >
-          
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-          
-          <div class="row">
-		  <div class="col-md-12">
-				<div class="form-group">
-					<label for="gstin">Old Case ID</label> 
-					<input class="form-control" type="text"  id="caseid"  readonly />
-				</div>
-		   </div>
-		   </div>
-           
-           <div class="row">
-		   <div class="col-md-12">
-				<div class="form-group">
-					<label for="gstin">New Case ID Proposed<span style="color: red;"> *</span></label> 
-					<input class="form-control"  maxlength="15" pattern="[A-Za-z0-9]{15}"  id="newcaseid"  name="caseid" title="Please enter 15-digits alphanumeric Case Id" required />
-				</div>
-		   </div>
-		   </div>
-           
-           <div class="form-group" style="margin-bottom: 0rem;">
-           <label for="message-text" class="col-form-label">Remarks<span style="color: red;"> *</span></label>
-           </div>
-           <div class="btn-group btn-group-vertical" role="group" data-toggle="buttons" style="width: 100%;">
-              <c:forEach items="${listRemarks}" var="item">
-			  <label class="btn btn-outline-custom">
-			    <input type="radio" name="remarks" id="${item.id}" onclick="showHideOtherRemark()" value="${item.id}" required > ${item.name}
-			  </label>
-			  </c:forEach>
-			</div>
-            <textarea class="form-control" id="remarksId" name="otherRemarks" style="display: none" placeholder="Remarks"></textarea>
-            
-            <div class="form-group" style="margin-bottom: 0rem;">
-            <label for="message-text" class="col-form-label">Upload File<span style="color: red;"> *</span><span>(Only pdf files of size upto 10mb)</span></label>
-            </div>
-            
-            <input type="file" id="filePath" name="filePath" accept="pdf"  required />
-                
-            </div>
-      
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="transferCaseBtn" >Submit</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
+<!-- jQuery Confirm -->
+<script src="/static/dist/js/jquery-confirm.min.js"></script>
 
 <script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12') {
-        e.preventDefault();
-    }
-});
- // Disable back and forward cache
-$(document).ready(function () {
-    function disableBack() {window.history.forward()}
-
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('keydown', function(e){
+    if (e.ctrlKey && e.key === 'u') e.preventDefault();
+    if (e.key === 'F12') e.preventDefault();
+  });
+  $(document).ready(function () {
+    function disableBack(){ window.history.forward(); }
     window.onload = disableBack();
-    window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
-});
-// Disable refresh
-document.onkeydown = function (e) {
-    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-        e.preventDefault();
-        
-    }
-};
+    window.onpageshow = function (evt){ if (evt.persisted) disableBack(); }
+  });
+  document.onkeydown = function (e) {
+    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) e.preventDefault();
+  };
+
   function view(gst, date, period){
-	  
-	  $.ajax({url: '/checkLoginStatus',
-          method: 'get',
-          async: false,
-              success: function(result){
-                  const myJSON = JSON.parse(result);
-            	  if(result=='true'){
-					  $("#updateSummaryViewBody").load('/fo/view_case/id?gst='+gst+'&date='+date+'&period='+period, 
-							  function(response, status, xhr){
-				
-						if(status == 'success'){
-							 $("#updateSummaryViewModal").modal('show');
-						}else{
-							console.log("failed");
-						}
-					 });
-					  
-            	  }
-               	  else if(result=='false'){
-               		  window.location.reload();
-               	  }
-                   }
-                 
-             });
-     }
-
- 
-  function closeCase(gstno , date, period){
-
-    $("#gstno").val(gstno);
-	$("#date").val(date);
-	$("#period").val(period);
-
-    $("#closeCaseModal").modal('show');
-    
+    $.ajax({
+      url: '/checkLoginStatus',
+      method: 'get',
+      async: false,
+      success: function(result){
+        const myJSON = JSON.parse(result);
+        if(result=='true'){
+          $("#updateSummaryViewBody").load('/fo/view_case/id?gst='+gst+'&date='+date+'&period='+period, function(response, status, xhr){
+            if(status == 'success'){
+              $("#updateSummaryViewModal").modal('show');
+            }else{
+              console.log("failed");
+            }
+          });
+        } else if(result=='false'){
+          window.location.reload();
+        }
+      }
+    });
   }
-  
+
+  function closeCase(gstno , date, period){
+    $("#gstno").val(gstno);
+    $("#date").val(date);
+    $("#period").val(period);
+    $("#closeCaseModal").modal('show');
+  }
 
   function updateCaseId(gstno , date, period, caseid){
-    
-	$("#gstnocaseid").val(gstno);
-	$("#datecaseid").val(date);
-	$("#periodcaseid").val(period);
-	$("#caseid").val(caseid);
-    
-	$("#updateCaseidModal").modal('show');
-	   
+    $("#gstnocaseid").val(gstno);
+    $("#datecaseid").val(date);
+    $("#periodcaseid").val(period);
+    $("#caseid").val(caseid);
+    $("#updateCaseidModal").modal('show');
   }
-  
-</script>
 
-<script>
-
-$(function () {
-
-	  $('#mycheckbox').change(function(){
-	    if(this.checked) {
-	    	$("#checked").show();
-	    } else {
-	        $("#checked").hide();
-	    }
-	  });
-    
-	
-	  $("#updateSummaryClosedCaseBtn").on("click", function(){
-	    $("#confirmationModal").modal('show');
-	  });
-
-	  $("#updateSummaryViewBtn").on("click", function(){
-		  $.ajax({url: '/checkLoginStatus',
-	          method: 'get',
-	          async: false,
-	              success: function(result){
-	                  const myJSON = JSON.parse(result);
-	            	  if(result=='true'){
-		  
-						 $("#updateSummaryViewBody").load('//fo/view_case', function(response, status, xhr){
-				
-							if(status == 'success'){
-								 $("#updateSummaryViewModal").modal('show');
-							}else{
-								console.log("failed");
-							}
-						});
-	            	  }
-	               	  else if(result=='false'){
-	               		  window.location.reload();
-	               	  }
-	                   }
-	                 
-	             });
-		 
-	  });
-
-	  
-	  $("#okayBtn").on("click", function(){
-	    console.log("save");
-	    $("#closeCaseModal").modal('hide');
-	  });
-	  
-	  $("#closeBtn").on("click", function(){
-		  console.log("failed");
-	    $("#closeCaseModal").modal('hide');
-	  });
-      
-		  
-	});  
-
-</script>
-
-<script>
-
-    $('#updatecaseidForm').on('submit', function(oEvent) {
-    	
-    	oEvent.preventDefault();
-
-    	var oldCaseId = document.querySelector('#caseid').value.trim();
-
-        var newCaseId = document.querySelector('#newcaseid').value.trim();
-    	
-    	$.confirm({
-    		title : 'Confirm!',
-    		content : 'Do you want to proceed ahead to request case id updation?',
-    		buttons : {
-    			submit : function() {
-
-    				var fileName = document.querySelector('#filePath').value;
-
-			        var extension = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
-			        
-			        var input = document.getElementById('filePath');
-			        
-			     	if (input.files && input.files[0]) {
-			        
-			     	var maxAllowedSize = 10 * 1024 * 1024;
-                    
-			     	if(extension == 'pdf'){
-			              
-			        if(input.files[0].size > maxAllowedSize) {
-
-			        	$.alert('Please upload max 10MB file');
-			         	input.value = '';
-			        }else{
-
-			        	if(oldCaseId == newCaseId){
-                            
-			            	$.alert("New Case ID can not be same as Old Case ID");
-
-                            $("#newcaseid").val("");
-			            	
-			            }else{
-                            
-			            	oEvent.currentTarget.submit();
-			            	
-			            }
-			        	
-			 	    }
-
-			     	}else{
-
-			          $.alert("Please upload only pdf file");
-			          document.querySelector('#filePath').value = '';
-			          }
-
-			     	}else{
-
-			     		 $.alert("Please upload pdf file");
-			     	}
-    			   
-    			},
-    			close : function() {
-    				$.alert('Canceled!');
-    			}
-    		 }
-    	});
-    
+  $(function () {
+    $('#mycheckbox').change(function(){
+      if(this.checked) { $("#checked").show(); } else { $("#checked").hide(); }
     });
 
-    $(function () {
-        $("#scrutinyListTable").DataTable({
-        	"responsive": false, "lengthChange": false, "autoWidth": true, "scrollX": false,
-          "buttons": 
-            [
-                "excel",
-                "pdf", 
-                "print", 
-            ]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      });
-    
-</script>
+    $("#updateSummaryClosedCaseBtn").on("click", function(){ $("#confirmationModal").modal('show'); });
 
+    $("#updateSummaryViewBtn").on("click", function(){
+      $.ajax({
+        url: '/checkLoginStatus',
+        method: 'get',
+        async: false,
+        success: function(result){
+          const myJSON = JSON.parse(result);
+          if(result=='true'){
+            $("#updateSummaryViewBody").load('//fo/view_case', function(response, status, xhr){
+              if(status == 'success'){ $("#updateSummaryViewModal").modal('show'); }
+              else { console.log("failed"); }
+            });
+          } else if(result=='false'){ window.location.reload(); }
+        }
+      });
+    });
+
+    $("#okayBtn").on("click", function(){ $("#closeCaseModal").modal('hide'); });
+    $("#closeBtn").on("click", function(){ $("#closeCaseModal").modal('hide'); });
+  });
+
+  $('#updatecaseidForm').on('submit', function(oEvent) {
+    oEvent.preventDefault();
+    var oldCaseId = document.querySelector('#caseid').value.trim();
+    var newCaseId = document.querySelector('#newcaseid').value.trim();
+
+    $.confirm({
+      title : 'Confirm!',
+      content : 'Do you want to proceed ahead to request case id updation?',
+      buttons : {
+        submit : function() {
+          var fileName = document.querySelector('#filePath').value;
+          var extension = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
+          var input = document.getElementById('filePath');
+          if (input.files && input.files[0]) {
+            var maxAllowedSize = 10 * 1024 * 1024;
+            if(extension == 'pdf'){
+              if(input.files[0].size > maxAllowedSize) {
+                $.alert('Please upload max 10MB file');
+                input.value = '';
+              } else {
+                if(oldCaseId == newCaseId){
+                  $.alert("New Case ID can not be same as Old Case ID");
+                  $("#newcaseid").val("");
+                } else {
+                  oEvent.currentTarget.submit();
+                }
+              }
+            } else {
+              $.alert("Please upload only pdf file");
+              document.querySelector('#filePath').value = '';
+            }
+          } else {
+            $.alert("Please upload pdf file");
+          }
+        },
+        close : function() { $.alert('Canceled!'); }
+      }
+    });
+  });
+
+  $(function () {
+    $("#scrutinyListTable").DataTable({
+      "responsive": false, "lengthChange": false, "autoWidth": true, "scrollX": false,
+      "buttons": ["excel","pdf","print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+</script>
+</body>
+</html>

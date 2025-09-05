@@ -11,18 +11,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HP GST |Review Case List</title>
   <link rel="icon" type="image/x-icon" href="/static/files/hp_logo.png">
-  <!-- <link rel="stylesheet" href="/static/dist/css/googleFront/googleFrontFamilySourceSansPro.css"> -->
+
+  <!-- Font Awesome (unchanged) -->
   <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+  <!-- AdminLTE 4 (Bootstrap 5 based) -->
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+
+  <!-- DataTables Bootstrap 5 skins -->
+  <link rel="stylesheet" href="/static/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap5.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap5.min.css">
+
+  <!-- jQuery Confirm -->
   <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
   <jsp:include page="../layout/header.jsp"/>
   <jsp:include page="../layout/sidebar.jsp"/>
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -31,7 +39,7 @@
             <h1>Review Case Summary</h1>
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+            <ol class="breadcrumb float-sm-end">
               <li class="breadcrumb-item"><a href="/hq/dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="/hq/review_summary_list">Review Status</a></li>
               <li class="breadcrumb-item active">Review Case Summary</li>
@@ -40,167 +48,159 @@
         </div>
       </div>
     </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Review Cases List</h3>
+                <h3 class="card-title mb-0">Review Cases List</h3>
               </div>
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped w-100">
                   <thead>
-                  <tr>
-                    <th style="text-align: center; vertical-align: middle;">GSTIN</th>
-                    <th style="text-align: center; vertical-align: middle;">Taxpayer Name</th>
-                    <th style="text-align: center; vertical-align: middle;">Jurisdiction</th>
-                    <th style="text-align: center; vertical-align: middle;">Period</th>
-                    <th style="text-align: center; vertical-align: middle;">Dispatch No.</th>
-                    <th style="text-align: center; vertical-align: middle;">Reporting Date<br>(DD-MM-YYYY)</th>
-                    <th style="text-align: center; vertical-align: middle;">Indicative Value(₹)</th>
-                    <th style="text-align: center; vertical-align: middle;">Currently With</th>
-                    <th style="text-align: center; vertical-align: middle;">Action Status</th>
-                    <th style="text-align: center; vertical-align: middle;">Case ID</th>
-                    <th style="text-align: center; vertical-align: middle;">Case Stage</th>
-                    <th style="text-align: center; vertical-align: middle;">Case Stage ARN</th>
-                    <th style="text-align: center; vertical-align: middle;">Amount(₹)</th>
-                    <th style="text-align: center; vertical-align: middle;">Recovery Stage</th>
-					          <th style="text-align: center; vertical-align: middle;">Recovery Stage ARN</th>
-                    <th style="text-align: center; vertical-align: middle;">Recovery Via DRC03(₹)</th>
-                    <th style="text-align: center; vertical-align: middle;">Recovery Against Demand(₹)</th>
-                    <th style="text-align: center; vertical-align: middle;">Supporting File</th>
-                  </tr>
+                    <tr>
+                      <th style="text-align: center; vertical-align: middle;">GSTIN</th>
+                      <th style="text-align: center; vertical-align: middle;">Taxpayer Name</th>
+                      <th style="text-align: center; vertical-align: middle;">Jurisdiction</th>
+                      <th style="text-align: center; vertical-align: middle;">Period</th>
+                      <th style="text-align: center; vertical-align: middle;">Dispatch No.</th>
+                      <th style="text-align: center; vertical-align: middle;">Reporting Date<br>(DD-MM-YYYY)</th>
+                      <th style="text-align: center; vertical-align: middle;">Indicative Value(₹)</th>
+                      <th style="text-align: center; vertical-align: middle;">Currently With</th>
+                      <th style="text-align: center; vertical-align: middle;">Action Status</th>
+                      <th style="text-align: center; vertical-align: middle;">Case ID</th>
+                      <th style="text-align: center; vertical-align: middle;">Case Stage</th>
+                      <th style="text-align: center; vertical-align: middle;">Case Stage ARN</th>
+                      <th style="text-align: center; vertical-align: middle;">Amount(₹)</th>
+                      <th style="text-align: center; vertical-align: middle;">Recovery Stage</th>
+                      <th style="text-align: center; vertical-align: middle;">Recovery Stage ARN</th>
+                      <th style="text-align: center; vertical-align: middle;">Recovery Via DRC03(₹)</th>
+                      <th style="text-align: center; vertical-align: middle;">Recovery Against Demand(₹)</th>
+                      <th style="text-align: center; vertical-align: middle;">Supporting File</th>
+                    </tr>
                   </thead>
                   <tbody>
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> <!-- /.card -->
           </div>
         </div>
       </div>
       <input type="hidden" id="category" value="${category}"/>
     </section>
   </div>
+
   <jsp:include page="../layout/footer.jsp"/>
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
+
+<!-- Core: jQuery + Bootstrap 5 + AdminLTE 4 -->
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+
+<!-- DataTables + Bootstrap 5 adapters -->
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
 <script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap5.min.js"></script>
 <script src="/static/plugins/jszip/jszip.min.js"></script>
 <script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="/static/dist/js/adminlte.min.js"></script>
+
+<!-- jQuery Confirm -->
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 
 <script>
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && e.key === 'u') {
-		e.preventDefault();
-	}
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12') {
-        e.preventDefault();
-    }
-});
- // Disable back and forward cache
-$(document).ready(function () {
-    function disableBack() {window.history.forward()}
+// keep your security/UX handlers unchanged
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'u') e.preventDefault(); });
+document.addEventListener('keydown', e => { if (e.key === 'F12') e.preventDefault(); });
 
-    window.onload = disableBack();
-    window.onpageshow = function (evt) {if (evt.persisted) disableBack()}
+$(document).ready(function () {
+  function disableBack(){ window.history.forward(); }
+  window.onload = disableBack();
+  window.onpageshow = function (evt) { if (evt.persisted) disableBack(); };
 });
-// Disable refresh
 document.onkeydown = function (e) {
-    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) {
-        e.preventDefault();
-        
-    }
+  if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) e.preventDefault();
 };
 
+// DataTables (server-side) – logic unchanged
 $(function () {
-    $("#example1").DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "/hq/review_cases_list_ajax",
-            "type": "GET",
-            "dataSrc": function(json) {
-                if (json.redirect) {
-                    window.location.href = json.redirect;
-                    return [];
-                }
-                return json.data;
-            },
-            "data": function (d) {
-                d.category = $('#category').val();
-            }
-        },
-        "columns": [
-            { "data": "GSTIN" },
-            { "data": "taxpayerName" },
-            { "data": "locationName" },
-            { "data": "period" },
-            { "data": "extensionNo" },
-            { 
-              "data": "caseReportingDate",
-                "render": function(data, type, row) {
-                  if (data) {
-                    var date = new Date(data);
-                    var day = ("0" + date.getDate()).slice(-2);
-                    var month = ("0" + (date.getMonth() + 1)).slice(-2);
-                    var year = date.getFullYear();
-                    return day + '-' + month + '-' + year;
-                  }
-                  return '';
-                }
-            },
-            { "data": "indicativeTaxValue" },
-            { "data": "assignedTo" },
-            { "data": "actionStatus" },
-            { "data": "caseId" },
-            { "data": "caseStage" },
-            { "data": "caseStageArn" },
-            { "data": "demand" },
-            { "data": "recoveryStage" },
-            { "data": "recoveryStageArn" },
-            { "data": "recoveryByDRC3" },
-            { "data": "recoveryAgainstDemand" },
-            {
-                "data": "fileName",
-                "render": function (data, type, row, meta) {
-                    return '<a href="/hq/downloadFile?fileName=' + data + '"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i></button></a>';
-                }
-            }
-        ],
-        "responsive": false,
-        "lengthChange": false,
-        "autoWidth": true,
-        "scrollX": true,
-        "dom": 'Bfrtip',
-        "buttons": [
-            "excel",
-            "pdf",
-            "print"
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  $("#example1").DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "/hq/review_cases_list_ajax",
+      type: "GET",
+      dataSrc: function(json) {
+        if (json.redirect) {
+          window.location.href = json.redirect;
+          return [];
+        }
+        return json.data;
+      },
+      data: function (d) {
+        d.category = $('#category').val();
+      }
+    },
+    columns: [
+      { data: "GSTIN" },
+      { data: "taxpayerName" },
+      { data: "locationName" },
+      { data: "period" },
+      { data: "extensionNo" },
+      {
+        data: "caseReportingDate",
+        render: function(data) {
+          if (!data) return '';
+          var date = new Date(data);
+          var day = ("0" + date.getDate()).slice(-2);
+          var month = ("0" + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return day + '-' + month + '-' + year;
+        }
+      },
+      { data: "indicativeTaxValue" },
+      { data: "assignedTo" },
+      { data: "actionStatus" },
+      { data: "caseId" },
+      { data: "caseStage" },
+      { data: "caseStageArn" },
+      { data: "demand" },
+      { data: "recoveryStage" },
+      { data: "recoveryStageArn" },
+      { data: "recoveryByDRC3" },
+      { data: "recoveryAgainstDemand" },
+      {
+        data: "fileName",
+        render: function (data) {
+          return '<a href="/hq/downloadFile?fileName=' + data + '"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i></button></a>';
+        }
+      }
+    ],
+    responsive: false,
+    lengthChange: false,
+    autoWidth: true,
+    scrollX: true,
+    dom: 'Bfrtip',
+    buttons: [
+      'excel', 'pdf', 'print'
+    ]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 });
 </script>
+
+<!-- (Unchanged) sample script using caseList; left as-is per your logic -->
 <script>
   var tableBody = document.getElementById("tableBody");
   var data = '${caseList}';

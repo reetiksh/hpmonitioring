@@ -9,21 +9,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Random Verification Of Cases</title>
 
-  <!-- <link rel="stylesheet" href="/static/dist/css/googleFront/googleFrontFamilySourceSansPro.css"> -->
-  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css">
-  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+  <!-- Keep fonts & icons -->
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css"/>
+
+  <!-- DataTables Bootstrap 5 styles (AdminLTE 4 uses BS5) -->
+  <link rel="stylesheet" href="/static/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css"/>
+  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap5.min.css"/>
+  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap5.min.css"/>
+
+  <link rel="stylesheet" href="/static/dist/css/jquery-confirm.min.css"/>
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css"/>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="layout-fixed sidebar-expand-lg">
 <div class="wrapper">
   <jsp:include page="../../layout/header.jsp"/>
   <jsp:include page="../../layout/sidebar.jsp"/>
   <jsp:include page="../scrutiny_hq/random_recommended_pop_up.jsp"/>
-  
-  
+
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -40,35 +42,25 @@
         </div>
       </div>
     </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="card-primary">
+            <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Random Verification Of Cases</h3>
               </div>
-              
-              <!-- <div class="alert alert-success" role="alert" style="display: none;" id="appealRevisionCaseApprovedAlertSuccess">
-              <div style="display:none;" id="appealRevisionCaseApprovedTagLine">Case Approved Successfully !</div>
-            </div>
-            <div class="alert alert-success" role="alert" style="display: none;" id="appealRevisionCaseRejectedAlertFail">
-              <div style="display:none;" id="appealRevisionCaseRejectedTagLine">Case Reverted Successfully !</div>
-              </div> -->
-              
-              <div class="card-body">
-				<c:if test="${not empty message}">
-					<div class="alert alert-success alert-dismissible fade show"
-						id="message" role="alert">
-						<strong>${message}</strong>
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</c:if>
 
-				<table id="example1" class="table table-bordered table-striped">
+              <div class="card-body">
+                <c:if test="${not empty message}">
+                  <div class="alert alert-success alert-dismissible fade show" id="message" role="alert">
+                    <strong>${message}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                </c:if>
+
+                <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th style="text-align: center; vertical-align: middle;">GSTIN</th>
@@ -84,14 +76,13 @@
                       <th style="text-align: center; vertical-align: middle;">Recovery Via DRC03(₹)</th>
                       <th style="text-align: center; vertical-align: middle;">Status</th>
                       <th style="text-align: center; vertical-align: middle;">Case File</th>
-                      
-                      <th style="text-align: center; vertical-align: middle;">Action</th> 
+                      <th style="text-align: center; vertical-align: middle;">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <c:forEach items="${mstScrutinyCasesList}" var="object" varStatus="loop">
                       <tr>
-                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.GSTIN}" /></td> 
+                        <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.GSTIN}" /></td>
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.taxpayerName}" /></td>
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.locationDetails.locationName}" /></td>
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.id.period}" /></td>
@@ -103,93 +94,92 @@
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.recoveryStageArn}" /></td>
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.recoveryByDRC03}" /></td>
                         <td style="text-align: center; vertical-align: middle;"><c:out value="${object.actionDescription}" /></td>
-                        
-                         <td style="text-align: center; vertical-align: middle;">
-                        <c:if test="${object.filePath != null}">
-							<a href="/scrutiny_hq/downloadUploadedPdfFile?fileName=${object.filePath}">
-								<button type="button" class="btn btn-primary">
-									<i class="fa fa-download"></i>
-								</button>
-							</a>
-						</c:if>
-						</td>
-                        
-                       <td style="text-align: center; vertical-align: middle;">
+
+                        <td style="text-align: center; vertical-align: middle;">
+                          <c:if test="${object.filePath != null}">
+                            <a href="/scrutiny_hq/downloadUploadedPdfFile?fileName=${object.filePath}">
+                              <button type="button" class="btn btn-primary">
+                                <i class="fa fa-download"></i>
+                              </button>
+                            </a>
+                          </c:if>
+                        </td>
+
+                        <td style="text-align: center; vertical-align: middle;">
                           <button type="button" onclick="callRecommendedScrutinyCase('${object.id.GSTIN}','${object.id.caseReportingDate}','${object.id.period}');" class="btn btn-primary" id="appealRevisioinRejectBtn">Recommend</button>
-                       </td>
-                      </tr> 
+                        </td>
+                      </tr>
                     </c:forEach>
                   </tbody>
                 </table>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </section>
   </div>
+
   <jsp:include page="../../layout/footer.jsp"/>
   <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
 
+<!-- Core -->
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables + Bootstrap 5 -->
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
 <script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap5.min.js"></script>
 <script src="/static/plugins/jszip/jszip.min.js"></script>
 <script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
 <script src="/static/dist/js/jquery-confirm.min.js"></script>
 <script src="/static/dist/js/adminlte.min.js"></script>
-<script> 
+
+<script>
 $(document).ready(function() {
-	$("#message").fadeTo(2000, 500).slideUp(500, function() {
-		$("#message").slideUp(500);
-	});
+  $("#message").fadeTo(2000, 500).slideUp(500, function() { $("#message").slideUp(500); });
+
+  $("#example1").DataTable({
+    responsive: false,
+    lengthChange: false,
+    autoWidth: true,
+    scrollX: true,
+    buttons: ["excel","pdf","print"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 });
-
-
- $(function () {
-    $("#example1").DataTable({
-    	"responsive": false, "lengthChange": false, "autoWidth": true, "scrollX": true,
-      "buttons": 
-        [
-            "excel",
-            "pdf", 
-            "print", 
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
 </script>
 
 <script>
-	
-	
-	function callRecommendedScrutinyCase(gstin,reportingDate,period){
-	 $("#recommendScrutinyGstin").val(gstin);
-	  $("#recommendScrutinyPeriod").val(period);
-	  $("#recommendScrutinyCaseReportingDate").val(reportingDate);
-	  
-	  
-	$("#randomRecommendScrutinyCaseModal").modal('show');
-	}
-   
+  function callRecommendedScrutinyCase(gstin,reportingDate,period){
+    $("#recommendScrutinyGstin").val(gstin);
+    $("#recommendScrutinyPeriod").val(period);
+    $("#recommendScrutinyCaseReportingDate").val(reportingDate);
+    $("#randomRecommendScrutinyCaseModal").modal('show');
+  }
+
+  // Keep your existing prevention/disable logic unchanged
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'u') e.preventDefault(); });
+  document.addEventListener('keydown', e => { if (e.key === 'F12') e.preventDefault(); });
+  $(function(){
+    function disableBack(){ window.history.forward(); }
+    window.onload = disableBack();
+    window.onpageshow = e => { if (e.persisted) disableBack(); }
+  });
+  document.onkeydown = function (e) {
+    if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || e.keyCode === 116) e.preventDefault();
+  };
 </script>
 </body>
 </html>
